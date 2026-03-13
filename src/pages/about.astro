@@ -7,20 +7,32 @@ const skills = [
   { category: 'Tooling', items: ['Roslyn', 'Source Generators', 'Docker', 'Git'] },
   { category: 'Interests', items: ['Open Source', 'Performance', 'Developer Tools', 'Clean Architecture'] },
 ];
+
+const certifications = [
+  'MS: Programming in C# Specialist',
+  'MCPS: Microsoft Certified Professional',
+  'Cisco Certified Network Associate (CCNA)',
+];
 ---
 
-<BaseLayout title="About" description="About Marcel Roozekrans — software engineer and open source developer.">
+<BaseLayout title="About" description="About Marcel Roozekrans — software engineer, open source developer, and dive instructor based in the Netherlands.">
   <div class="mx-auto max-w-3xl px-6 py-16">
     <h1 class="text-4xl font-bold text-white mb-8">About Me</h1>
 
     <div class="mb-12">
       <p class="text-zinc-300 text-lg leading-relaxed mb-4">
-        Hi! I'm Marcel — a software engineer based in the Netherlands, focused on the .NET ecosystem.
+        Hi! I'm Marcel — a software engineer based in Heemstede, the Netherlands. I run
+        <strong class="text-white">Roozekrans IT-Solutions</strong> and have extensive experience in
+        website and software development, with a deep focus on the .NET ecosystem.
+      </p>
+      <p class="text-zinc-300 text-lg leading-relaxed mb-4">
         I enjoy building open source libraries that make other developers' lives easier, with a particular
-        interest in performance, source generators, and developer tooling.
+        interest in performance, source generators, and developer tooling. I studied Information Engineering
+        at the Hogeschool van Amsterdam.
       </p>
       <p class="text-zinc-300 text-lg leading-relaxed">
-        When I'm not writing code, I'm probably reading about it. I believe in writing software that
+        When I'm not writing code, you'll probably find me underwater — I'm a certified dive instructor (KSS3)
+        and active member of Onderwatersport Vereniging Haarlem. I believe in writing software that
         is simple, fast, and well-tested.
       </p>
     </div>
@@ -39,6 +51,15 @@ const skills = [
       ))}
     </div>
 
+    <h2 class="text-2xl font-bold text-white mb-6">Certifications</h2>
+    <ul class="space-y-2 mb-12">
+      {certifications.map(cert => (
+        <li class="text-zinc-300 text-sm flex items-center gap-2">
+          <span class="text-cyan-400">&#9670;</span> {cert}
+        </li>
+      ))}
+    </ul>
+
     <h2 class="text-2xl font-bold text-white mb-6">Find Me</h2>
     <div class="flex flex-wrap gap-4">
       <a href="https://github.com/MarcelRoozekrans" target="_blank" rel="noopener"
@@ -48,6 +69,10 @@ const skills = [
       <a href="https://www.nuget.org/profiles/MarcelRoozekrans" target="_blank" rel="noopener"
          class="flex items-center gap-2 border border-zinc-700 text-zinc-300 px-4 py-2 rounded-lg hover:border-cyan-400 hover:text-cyan-400 transition-colors text-sm">
         NuGet
+      </a>
+      <a href="https://www.linkedin.com/in/marcelroozekrans/" target="_blank" rel="noopener"
+         class="flex items-center gap-2 border border-zinc-700 text-zinc-300 px-4 py-2 rounded-lg hover:border-cyan-400 hover:text-cyan-400 transition-colors text-sm">
+        LinkedIn
       </a>
     </div>
   </div>
