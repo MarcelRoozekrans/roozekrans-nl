@@ -1,0 +1,40 @@
+---
+import BaseLayout from './BaseLayout.astro';
+
+interface Props {
+  title: string;
+  description: string;
+  date: Date;
+  tags: string[];
+}
+
+const { title, description, date, tags } = Astro.props;
+
+const formattedDate = date.toLocaleDateString('en-US', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+});
+---
+
+<BaseLayout title={title} description={description}>
+  <article class="mx-auto max-w-3xl px-6 py-16">
+    <header class="mb-10">
+      <div class="flex flex-wrap gap-2 mb-4">
+        {tags.map(tag => (
+          <span class="font-mono text-xs bg-zinc-800 text-cyan-400 px-2 py-0.5 rounded">{tag}</span>
+        ))}
+      </div>
+      <h1 class="text-4xl font-bold text-white mb-4 leading-tight">{title}</h1>
+      <time class="font-mono text-sm text-zinc-500">{formattedDate}</time>
+    </header>
+
+    <div class="prose prose-invert prose-cyan max-w-none
+                prose-headings:text-cyan-400
+                prose-a:text-cyan-400 prose-a:no-underline hover:prose-a:underline
+                prose-code:text-cyan-300 prose-code:bg-zinc-800 prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded prose-code:before:content-none prose-code:after:content-none
+                prose-pre:bg-zinc-900 prose-pre:border prose-pre:border-zinc-800">
+      <slot />
+    </div>
+  </article>
+</BaseLayout>
