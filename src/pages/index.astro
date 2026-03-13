@@ -1,17 +1,75 @@
 ---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import BlogCard from '../components/BlogCard.astro';
+import { getCollection } from 'astro:content';
 
+const featuredProjects = (await getCollection('projects', ({ data }) => data.featured))
+  .sort((a, b) => a.data.order - b.data.order);
+
+const latestPosts = (await getCollection('blog', ({ data }) => !data.draft))
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
+  .slice(0, 3);
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<BaseLayout title="Home" description="Marcel Roozekrans — Software Engineer & Open Source Developer in the .NET ecosystem.">
+  <!-- Hero -->
+  <section class="relative overflow-hidden border-b border-zinc-800">
+    <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_rgba(34,211,238,0.08)_0%,_transparent_70%)]" />
+    <div class="relative mx-auto max-w-5xl px-6 py-28">
+      <p class="font-mono text-cyan-400 text-sm mb-4">Hi, I'm</p>
+      <h1 class="text-5xl font-bold text-white mb-4 tracking-tight">Marcel Roozekrans</h1>
+      <p class="text-xl text-zinc-400 max-w-xl leading-relaxed">
+        Software Engineer · Open Source Developer · .NET enthusiast building tools, libraries, and the occasional side project.
+      </p>
+      <div class="flex gap-4 mt-8">
+        <a href="/projects" class="bg-cyan-400 text-zinc-950 font-semibold px-5 py-2.5 rounded-lg hover:bg-cyan-300 transition-colors text-sm">
+          View Projects
+        </a>
+        <a href="/blog" class="border border-zinc-700 text-zinc-300 font-medium px-5 py-2.5 rounded-lg hover:border-zinc-500 transition-colors text-sm">
+          Read Blog
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Featured Projects -->
+  <section class="mx-auto max-w-5xl px-6 py-16">
+    <div class="flex items-center justify-between mb-8">
+      <h2 class="text-2xl font-bold text-white">Featured Projects</h2>
+      <a href="/projects" class="text-sm text-cyan-400 hover:text-cyan-300 transition-colors">All projects &rarr;</a>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+      {featuredProjects.map(project => (
+        <ProjectCard
+          title={project.data.title}
+          description={project.data.description}
+          tags={project.data.tags}
+          github={project.data.github}
+          nuget={project.data.nuget}
+        />
+      ))}
+    </div>
+  </section>
+
+  <!-- Latest Posts -->
+  {latestPosts.length > 0 && (
+    <section class="mx-auto max-w-5xl px-6 py-16 border-t border-zinc-800">
+      <div class="flex items-center justify-between mb-8">
+        <h2 class="text-2xl font-bold text-white">Latest Posts</h2>
+        <a href="/blog" class="text-sm text-cyan-400 hover:text-cyan-300 transition-colors">All posts &rarr;</a>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        {latestPosts.map(post => (
+          <BlogCard
+            title={post.data.title}
+            description={post.data.description}
+            date={post.data.date}
+            tags={post.data.tags}
+            id={post.id}
+          />
+        ))}
+      </div>
+    </section>
+  )}
+</BaseLayout>
