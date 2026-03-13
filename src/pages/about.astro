@@ -1,0 +1,54 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const skills = [
+  { category: 'Languages', items: ['C#', 'TypeScript', 'JavaScript', 'SQL'] },
+  { category: 'Frameworks', items: ['.NET 8/9', 'ASP.NET Core', 'Blazor', 'Astro'] },
+  { category: 'Tooling', items: ['Roslyn', 'Source Generators', 'Docker', 'Git'] },
+  { category: 'Interests', items: ['Open Source', 'Performance', 'Developer Tools', 'Clean Architecture'] },
+];
+---
+
+<BaseLayout title="About" description="About Marcel Roozekrans — software engineer and open source developer.">
+  <div class="mx-auto max-w-3xl px-6 py-16">
+    <h1 class="text-4xl font-bold text-white mb-8">About Me</h1>
+
+    <div class="mb-12">
+      <p class="text-zinc-300 text-lg leading-relaxed mb-4">
+        Hi! I'm Marcel — a software engineer based in the Netherlands, focused on the .NET ecosystem.
+        I enjoy building open source libraries that make other developers' lives easier, with a particular
+        interest in performance, source generators, and developer tooling.
+      </p>
+      <p class="text-zinc-300 text-lg leading-relaxed">
+        When I'm not writing code, I'm probably reading about it. I believe in writing software that
+        is simple, fast, and well-tested.
+      </p>
+    </div>
+
+    <h2 class="text-2xl font-bold text-white mb-6">Skills & Tech</h2>
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12">
+      {skills.map(({ category, items }) => (
+        <div>
+          <h3 class="font-mono text-cyan-400 text-xs uppercase tracking-widest mb-3">{category}</h3>
+          <ul class="space-y-1">
+            {items.map(item => (
+              <li class="text-zinc-300 text-sm">{item}</li>
+            ))}
+          </ul>
+        </div>
+      ))}
+    </div>
+
+    <h2 class="text-2xl font-bold text-white mb-6">Find Me</h2>
+    <div class="flex flex-wrap gap-4">
+      <a href="https://github.com/MarcelRoozekrans" target="_blank" rel="noopener"
+         class="flex items-center gap-2 border border-zinc-700 text-zinc-300 px-4 py-2 rounded-lg hover:border-cyan-400 hover:text-cyan-400 transition-colors text-sm">
+        GitHub
+      </a>
+      <a href="https://www.nuget.org/profiles/MarcelRoozekrans" target="_blank" rel="noopener"
+         class="flex items-center gap-2 border border-zinc-700 text-zinc-300 px-4 py-2 rounded-lg hover:border-cyan-400 hover:text-cyan-400 transition-colors text-sm">
+        NuGet
+      </a>
+    </div>
+  </div>
+</BaseLayout>
