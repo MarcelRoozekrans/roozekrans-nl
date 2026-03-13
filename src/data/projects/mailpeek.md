@@ -1,10 +1,10 @@
 ---
 title: "MailPeek"
-description: "A local SMTP server and email viewer for development, so you never send test emails to real addresses."
+description: "In-memory fake SMTP server with a real-time web dashboard for ASP.NET Core. Capture emails during development and testing."
 tags: [".NET", "SMTP", "Developer Tools"]
 github: "https://github.com/MarcelRoozekrans/MailPeek"
 featured: true
-order: 3
+order: 2
 ---
 
-MailPeek is a lightweight local SMTP server with a web UI to view emails during development.
+In-memory fake SMTP server with a real-time web dashboard for ASP.NET Core. Capture emails during development and testing — never send test emails to real addresses again.
