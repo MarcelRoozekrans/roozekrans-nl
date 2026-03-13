@@ -1,0 +1,27 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import { getCollection } from 'astro:content';
+
+const projects = (await getCollection('projects'))
+  .sort((a, b) => a.data.order - b.data.order);
+---
+
+<BaseLayout title="Projects" description="Open source projects by Marcel Roozekrans.">
+  <div class="mx-auto max-w-5xl px-6 py-16">
+    <h1 class="text-4xl font-bold text-white mb-4">Projects</h1>
+    <p class="text-zinc-400 mb-12">Open source libraries and tools I've built for the .NET ecosystem and beyond.</p>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+      {projects.map(project => (
+        <ProjectCard
+          title={project.data.title}
+          description={project.data.description}
+          tags={project.data.tags}
+          github={project.data.github}
+          nuget={project.data.nuget}
+        />
+      ))}
+    </div>
+  </div>
+</BaseLayout>
