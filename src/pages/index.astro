@@ -13,6 +13,22 @@ const latestPosts = (await getCollection('blog', ({ data }) => !data.draft))
 ---
 
 <BaseLayout title="Home" description="Marcel Roozekrans — Software Engineer & Open Source Developer in the .NET ecosystem.">
+  <Fragment slot="head">
+    <script is:inline type="application/ld+json" set:html={JSON.stringify({
+      '@context': 'https://schema.org',
+      '@type': 'Person',
+      name: 'Marcel Roozekrans',
+      jobTitle: 'Software Engineer',
+      url: 'https://roozekrans.nl',
+      sameAs: [
+        'https://github.com/MarcelRoozekrans',
+        'https://www.linkedin.com/in/marcelroozekrans/',
+        'https://www.nuget.org/profiles/MarcelRoozekrans',
+        'https://keybase.io/marcelroozekrans',
+      ],
+    })} />
+  </Fragment>
+
   <!-- Hero -->
   <section class="relative overflow-hidden border-b border-zinc-800">
     <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_rgba(34,211,238,0.08)_0%,_transparent_70%)]" />
@@ -47,6 +63,8 @@ const latestPosts = (await getCollection('blog', ({ data }) => !data.draft))
           tags={project.data.tags}
           github={project.data.github}
           nuget={project.data.nuget}
+          marketplace={project.data.marketplace}
+          docs={project.data.docs}
         />
       ))}
     </div>
