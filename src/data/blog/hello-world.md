@@ -1,7 +1,7 @@
 ---
 title: "Hello World — Why I Started This Blog"
 description: "A first post about why I'm writing, what excites me about programming in 2026, and how AI is changing the way I build software."
-date: 2026-03-13
+date: 2026-03-05
 tags: ["meta", ".NET", "AI", "open source"]
 ---
 
