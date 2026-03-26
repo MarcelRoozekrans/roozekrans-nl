@@ -5,9 +5,11 @@ interface Props {
   tags: string[];
   github?: string;
   nuget?: string;
+  marketplace?: string;
+  docs?: string;
 }
 
-const { title, description, tags, github, nuget } = Astro.props;
+const { title, description, tags, github, nuget, marketplace, docs } = Astro.props;
 ---
 
 <article class="group rounded-xl border border-zinc-800 bg-zinc-900 p-6 hover:-translate-y-1 hover:border-cyan-400/40 transition-all duration-200">
@@ -27,6 +29,16 @@ const { title, description, tags, github, nuget } = Astro.props;
     {nuget && (
       <a href={nuget} target="_blank" rel="noopener" class="text-zinc-400 hover:text-accent transition-colors">
         NuGet &rarr;
+      </a>
+    )}
+    {marketplace && (
+      <a href={marketplace} target="_blank" rel="noopener" class="text-zinc-400 hover:text-accent transition-colors">
+        Marketplace &rarr;
+      </a>
+    )}
+    {docs && (
+      <a href={docs} target="_blank" rel="noopener" class="text-zinc-400 hover:text-accent transition-colors">
+        Docs &rarr;
       </a>
     )}
   </div>
