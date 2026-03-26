@@ -15,9 +15,33 @@ const formattedDate = date.toLocaleDateString('en-US', {
   month: 'long',
   day: 'numeric',
 });
+
+const articleSchema = JSON.stringify({
+  '@context': 'https://schema.org',
+  '@type': 'BlogPosting',
+  headline: title,
+  description: description,
+  datePublished: date.toISOString(),
+  author: {
+    '@type': 'Person',
+    name: 'Marcel Roozekrans',
+    url: 'https://roozekrans.nl',
+  },
+  publisher: {
+    '@type': 'Person',
+    name: 'Marcel Roozekrans',
+    url: 'https://roozekrans.nl',
+  },
+});
 ---
 
-<BaseLayout title={title} description={description}>
+<BaseLayout title={title} description={description} ogType="article">
+  <Fragment slot="head">
+    <meta property="article:published_time" content={date.toISOString()} />
+    <meta property="article:author" content="Marcel Roozekrans" />
+    <script is:inline type="application/ld+json" set:html={articleSchema} />
+  </Fragment>
+
   <article class="mx-auto max-w-3xl px-6 py-16">
     <header class="mb-10">
       <div class="flex flex-wrap gap-2 mb-4">

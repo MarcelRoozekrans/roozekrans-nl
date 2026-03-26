@@ -6,14 +6,26 @@ import Footer from '../components/Footer.astro';
 interface Props {
   title: string;
   description?: string;
+  ogImage?: string;
+  ogType?: string;
 }
 
 const {
   title,
   description = 'Marcel Roozekrans — Software Engineer & Open Source Developer',
+  ogImage = '/og-default.svg',
+  ogType = 'website',
 } = Astro.props;
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+const ogImageURL = new URL(ogImage, Astro.site);
+
+const websiteSchema = JSON.stringify({
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  name: 'Marcel Roozekrans',
+  url: 'https://roozekrans.nl',
+});
 ---
 
 <!doctype html>
@@ -22,15 +34,34 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={description} />
-    <meta property="og:title" content={title} />
+
+    <!-- Open Graph -->
+    <meta property="og:title" content={`${title} · Marcel Roozekrans`} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonicalURL} />
-    <meta property="og:type" content="website" />
+    <meta property="og:type" content={ogType} />
+    <meta property="og:image" content={ogImageURL} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:site_name" content="Marcel Roozekrans" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={`${title} · Marcel Roozekrans`} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImageURL} />
+
     <link rel="canonical" href={canonicalURL} />
     <link rel="sitemap" href="/sitemap-index.xml" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="icon" href="/favicon.ico" />
     <title>{title} · Marcel Roozekrans</title>
+
+    <!-- WebSite schema -->
+    <script is:inline type="application/ld+json" set:html={websiteSchema} />
+
+    <!-- Per-page head injection (e.g. article meta, structured data) -->
+    <slot name="head" />
   </head>
   <body class="min-h-screen flex flex-col">
     <Nav />
