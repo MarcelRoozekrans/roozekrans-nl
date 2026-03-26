@@ -20,6 +20,8 @@ const projects = (await getCollection('projects'))
           tags={project.data.tags}
           github={project.data.github}
           nuget={project.data.nuget}
+          marketplace={project.data.marketplace}
+          docs={project.data.docs}
         />
       ))}
     </div>

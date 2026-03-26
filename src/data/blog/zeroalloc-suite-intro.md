@@ -48,4 +48,6 @@ No dictionaries. No `Activator.CreateInstance`. No allocations.
 
 ---
 
-All libraries are available on NuGet under the [ZeroAlloc-Net](https://github.com/ZeroAlloc-Net) organisation. Native AOT compatible.
+Available on NuGet: [ZeroAlloc.Mediator](https://www.nuget.org/packages/ZeroAlloc.Mediator) · [ZeroAlloc.Inject](https://www.nuget.org/packages/ZeroAlloc.Inject) · [ZeroAlloc.Results](https://www.nuget.org/packages/ZeroAlloc.Results) · [ZeroAlloc.Validation](https://www.nuget.org/packages/ZeroAlloc.Validation) · [ZeroAlloc.ValueObjects](https://www.nuget.org/packages/ZeroAlloc.ValueObjects) · [ZeroAlloc.Specification](https://www.nuget.org/packages/ZeroAlloc.Specification)
+
+Source on [GitHub](https://github.com/ZeroAlloc-Net) · Native AOT compatible.
