@@ -1,5 +1,8 @@
 # Astro Starter Kit: Minimal
 
+[![GitHub Sponsors](https://img.shields.io/github/sponsors/MarcelRoozekrans?style=flat&logo=githubsponsors&color=ea4aaa&label=Sponsor)](https://github.com/sponsors/MarcelRoozekrans)
+
+
 ```sh
 npm create astro@latest -- --template minimal
 ```
