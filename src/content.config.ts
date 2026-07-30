@@ -25,6 +25,8 @@ const projects = defineCollection({
     docs: z.url().optional(),
     featured: z.boolean().default(false),
     order: z.number().default(99),
+    // Number of NuGet packages this project ships. Feeds the homepage stats.
+    packages: z.number().optional(),
   }),
 });
 
