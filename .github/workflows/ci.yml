@@ -3,8 +3,9 @@ name: CI
 on:
   push:
     branches: [master]
+  # No base-branch filter: every pull request gets checked, including
+  # stacked ones that target another feature branch rather than master.
   pull_request:
-    branches: [master]
 
 permissions:
   contents: read

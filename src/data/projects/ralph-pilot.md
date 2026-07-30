@@ -4,7 +4,7 @@ description: "PowerShell-based autonomous coding loop using the Ralph Wiggum Met
 tags: ["AI", "PowerShell", "Developer Tools"]
 github: "https://github.com/MarcelRoozekrans/RalphPilot"
 featured: false
-order: 11
+order: 16
 ---
 
 PowerShell-based autonomous coding loop using the Ralph Wiggum Method with GitHub Copilot CLI or Claude. Reads specs, iteratively implements tasks, auto-commits, and self-corrects on failure.
