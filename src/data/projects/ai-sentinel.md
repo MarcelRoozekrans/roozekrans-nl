@@ -6,7 +6,7 @@ github: "https://github.com/MarcelRoozekrans/AI.Sentinel"
 nuget: "https://www.nuget.org/packages/AI.Sentinel"
 docs: "https://marcelroozekrans.github.io/AI.Sentinel/"
 featured: true
-order: 3
+order: 5
 packages: 15
 ---
 
