@@ -21,14 +21,14 @@
   <rect x="80" y="195" width="4" height="72" rx="2" fill="#22d3ee"/>
 
   <!-- Name -->
-  <text x="108" y="252" font-family="system-ui,-apple-system,sans-serif" font-size="60" font-weight="700" fill="#ffffff" letter-spacing="-1">Marcel Roozekrans</text>
+  <text x="108" y="252" font-family="Inter,'Segoe UI',Arial,Helvetica,sans-serif" font-size="60" font-weight="700" fill="#ffffff" letter-spacing="-1">Marcel Roozekrans</text>
 
   <!-- Tagline -->
-  <text x="109" y="306" font-family="ui-monospace,monospace" font-size="26" fill="#22d3ee">Software Engineer · Open Source · .NET</text>
+  <text x="109" y="306" font-family="'JetBrains Mono','Cascadia Mono',Consolas,'DejaVu Sans Mono',monospace" font-size="26" fill="#22d3ee">Software Engineer · Open Source · .NET</text>
 
   <!-- Divider -->
   <line x1="80" y1="440" x2="400" y2="440" stroke="#27272a" stroke-width="1"/>
 
   <!-- Domain -->
-  <text x="80" y="480" font-family="ui-monospace,monospace" font-size="20" fill="#52525b">roozekrans.nl</text>
+  <text x="80" y="480" font-family="'JetBrains Mono','Cascadia Mono',Consolas,'DejaVu Sans Mono',monospace" font-size="20" fill="#52525b">roozekrans.nl</text>
 </svg>
