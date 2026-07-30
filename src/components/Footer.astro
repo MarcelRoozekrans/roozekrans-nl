@@ -1,10 +1,12 @@
 ---
-const year = new Date().getFullYear();
+// Static build: the year is baked in at build time, so render it client-side
+// to avoid a stale copyright on a site that may go months between deploys.
+const buildYear = new Date().getFullYear();
 ---
 
 <footer class="border-t border-zinc-800 py-8 mt-20">
   <div class="mx-auto max-w-5xl px-6 flex items-center justify-between text-zinc-400 text-sm">
-    <span>&copy; {year} Marcel Roozekrans</span>
+    <span>&copy; <span id="copyright-year">{buildYear}</span> Marcel Roozekrans</span>
     <div class="flex gap-4">
       <a href="https://github.com/MarcelRoozekrans" target="_blank" rel="noopener" class="hover:text-accent transition-colors">GitHub</a>
       <a href="https://www.nuget.org/profiles/MarcelRoozekrans" target="_blank" rel="noopener" class="hover:text-accent transition-colors">NuGet</a>
@@ -12,3 +14,7 @@ const year = new Date().getFullYear();
     </div>
   </div>
 </footer>
+
+<script is:inline>
+  document.getElementById('copyright-year').textContent = String(new Date().getFullYear());
+</script>
