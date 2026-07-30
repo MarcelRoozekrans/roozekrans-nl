@@ -5,7 +5,7 @@ tags: [".NET", "SMTP", "Developer Tools"]
 github: "https://github.com/MarcelRoozekrans/MailPeek"
 nuget: "https://www.nuget.org/packages/MailPeek"
 featured: true
-order: 2
+order: 6
 packages: 2
 ---
 

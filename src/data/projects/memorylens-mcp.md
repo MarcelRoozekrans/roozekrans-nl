@@ -4,8 +4,8 @@ description: "MCP server for .NET memory profiling with AI-actionable code fix s
 tags: [".NET", "MCP", "Performance", "AI"]
 github: "https://github.com/MarcelRoozekrans/memorylens-mcp"
 nuget: "https://www.nuget.org/packages/MemoryLens.Mcp"
-featured: false
-order: 7
+featured: true
+order: 3
 packages: 1
 ---
 

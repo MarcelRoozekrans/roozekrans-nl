@@ -5,7 +5,7 @@ tags: [".NET", "Roslyn", "MCP", "AI"]
 github: "https://github.com/MarcelRoozekrans/roslyn-codelens-mcp"
 nuget: "https://www.nuget.org/packages/RoslynCodeLens.Mcp"
 featured: true
-order: 4
+order: 2
 packages: 1
 ---
 
