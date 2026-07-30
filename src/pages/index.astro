@@ -10,6 +10,24 @@ const featuredProjects = (await getCollection('projects', ({ data }) => data.fea
 const latestPosts = (await getCollection('blog', ({ data }) => !data.draft))
   .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
   .slice(0, 3);
+
+// Open source at a glance. Everything except the download figure is derived
+// from the projects collection, so it stays correct as entries are added.
+// Downloads only ever grow, so the rounded-down floor cannot go stale.
+const allProjects = await getCollection('projects');
+
+const stats = [
+  { value: String(allProjects.length), label: 'Open source projects' },
+  {
+    value: String(allProjects.reduce((sum, p) => sum + (p.data.packages ?? 0), 0)),
+    label: 'NuGet packages',
+  },
+  {
+    value: String(allProjects.filter(p => p.data.tags.includes('MCP')).length),
+    label: 'MCP servers & integrations',
+  },
+  { value: '500K+', label: 'NuGet downloads' },
+];
 ---
 
 <BaseLayout title="Home" description="Marcel Roozekrans — Software Engineer & Open Source Developer in the .NET ecosystem.">
@@ -47,6 +65,21 @@ const latestPosts = (await getCollection('blog', ({ data }) => !data.draft))
         </a>
       </div>
     </div>
+  </section>
+
+  <!-- Open source at a glance -->
+  <section class="border-b border-zinc-800 bg-zinc-900/30">
+    <dl class="mx-auto max-w-5xl px-6 py-10 grid grid-cols-2 md:grid-cols-4 gap-8">
+      {stats.map(({ value, label }) => (
+        <div>
+          <dt class="sr-only">{label}</dt>
+          <dd>
+            <span class="block font-mono text-3xl font-bold text-accent tabular-nums">{value}</span>
+            <span class="block text-zinc-400 text-sm mt-1">{label}</span>
+          </dd>
+        </div>
+      ))}
+    </dl>
   </section>
 
   <!-- Featured Projects -->
