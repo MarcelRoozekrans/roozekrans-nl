@@ -4,8 +4,8 @@ description: "In-memory fake SMTP server with a real-time web dashboard for ASP.
 tags: [".NET", "SMTP", "Developer Tools"]
 github: "https://github.com/MarcelRoozekrans/MailPeek"
 nuget: "https://www.nuget.org/packages/MailPeek"
-featured: true
-order: 6
+featured: false
+order: 7
 packages: 2
 ---
 
