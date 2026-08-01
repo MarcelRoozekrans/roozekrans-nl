@@ -335,8 +335,20 @@ All resolved 2026-08-01. No blockers remain — implementation may proceed.
    meant to replace, and outside the 45–75 comfortable range. The measure is now expressed in
    `rem` so it cannot drift with glyph metrics again.
 
-3. **Shiki theme pairing** — ✅ **Resolved: `github-dark` / `github-light`.** Neutral and
-   high-legibility; does not compete with the cyan accent.
+3. **Shiki theme pairing** — ✅ **Resolved: `github-dark-high-contrast` /
+   `github-light-high-contrast`.**
+
+   *Revised 2026-08-01 during Task 13.* Originally resolved as plain `github-dark` /
+   `github-light`, chosen for legibility and then not measured. They fail AA: keyword
+   `#D73A49` measures **4.16:1** on the light code surface, and comment `#6A737D` measures
+   4.38:1 light / **3.68:1** dark. Syntax tokens are text, so 4.5:1 applies. The
+   high-contrast variants of the same family clear it — worst case is now the light comment
+   at 4.58:1, which is only 2% of headroom, so darkening `code-bg` or lightening that token
+   would break AA silently.
+
+   Also requires `defaultColor: false`, without which Shiki writes colours as inline styles
+   that outrank every stylesheet and `--code-bg` has no effect at all. And `wrap: true` was
+   tried and **removed** — see [MASTER → Wide content](../design/MASTER.md#wide-content).
 
 ---
 
@@ -350,6 +362,31 @@ at **1.04:1** on `/`, `/projects`, `/blog`, `/about` and every post. Effectively
 This matters more than it might appear, because light is the majority path: per Media
 Queries L5, `prefers-color-scheme: light` matches both an explicit light preference *and*
 no active preference. The phase is all-or-nothing; there is no safe intermediate merge point.
+
+## Accepted Deviations from This Contract
+
+Recorded because the contract said "no structural changes, per-page token substitutions
+only", and these exceed that. Each was a deliberate call, not drift:
+
+1. **About's page shell widened `max-w-3xl` → `max-w-5xl`.** The largest desktop layout
+   change in the phase — the skills grid goes 720px → 976px and the `h1` moves 128px left.
+   It makes About consistent with every other page and matches MASTER's "page shell =
+   `max-w-5xl`, all pages". The prose measure is applied to the intro block instead, which
+   is what the readability decision actually needed. After the article measure, this is the
+   change a returning reader notices second.
+2. **`/projects` gained an empty state**, and `/blog`'s was given panel chrome beyond the
+   specified "muted message + link". Both bring the three index pages to one policy; the
+   contract had specified only the blog one.
+3. **`aria-label` added to ProjectCard's external links.** This reverses the contract's
+   explicit decision to keep link text terse and rely on the surrounding `<article>` for
+   context. Verification showed a screen-reader link list of ~19 undifferentiated entries
+   reading "GitHub", "NuGet", "Docs". The visible label is preserved inside the accessible
+   name, so WCAG 2.5.3 holds.
+4. **Stats band uses `lg:grid-cols-4`**, not the 2-column tablet band the contract's
+   responsive spec describes — four 156px columns at exactly 768px made one label wrap
+   while its siblings didn't.
+5. **Footer top margin is `--spacing-section` (112px)**, not the contracted `space-24`
+   (96px). It uses the section rhythm token rather than a fixed step.
 
 ## Known Follow-ups (not defects in this phase)
 

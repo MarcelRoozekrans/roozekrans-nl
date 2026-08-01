@@ -148,7 +148,23 @@ Headings scale by ratio ~1.2 and never exceed four levels on a page.
   - `.prose` itself sets `max-width: none`. Exactly one element decides the measure and it is the wrapper — the typography plugin otherwise imposes its own `65ch` (~86 characters).
 - Paragraph spacing: `space-6` (24px). No first-line indents.
 - Links in prose: `accent`, underlined with `underline-offset-2`. Underline is required in body copy; color alone is insufficient.
-- Code blocks: `surface` fill, `border` hairline, `radius-lg`, `space-4` padding, Shiki highlighting (built into Astro — no client-side highlighter).
+- Code blocks: `code-bg` fill, `border` hairline, `radius-lg`, `space-4` padding, Shiki highlighting (built into Astro — no client-side highlighter).
+- Inline code: `chip` fill, matching tag badges. Not `surface-subtle` — that recedes in both themes, which in dark makes an inline code span read as a hole rather than a raised label.
+
+### Wide content
+
+Anything wider than the measure — code blocks, tables — **scrolls inside its own box**. The
+page body never scrolls horizontally at any viewport.
+
+Specifically **not** soft-wrapping. Shiki's `wrap: true` was tried and removed: it emits
+`white-space: pre-wrap; word-wrap: break-word` as an inline style that no stylesheet can
+override, so no block can opt out; it broke identifiers mid-token; and once the measure
+narrowed it began wrapping mid-expression on a 1920px desktop, not just on mobile.
+Horizontal scroll preserves indentation and line structure, which is what a developer
+audience expects of code, and it matches how wide tables already behave.
+
+Known cost: overlay scrollbars mean a cut-off table or code block gives no visual hint that
+it scrolls. That is a real usability gap and is recorded as a follow-up, not solved here.
 
 ## Spacing Scale
 
@@ -189,7 +205,7 @@ content, and it earns that by being the only banded section on the page.
 |---|---|---|
 | Page shell | `max-w-5xl` (1024px) | All pages. Tighter than a typical 1200px marketing shell — intentional, it reads as considered rather than corporate. |
 | Prose column | `var(--measure)` — 41rem incl. gutters (≈608px of text) | Article bodies. |
-| Gutters | `px-6` (24px) | All breakpoints. |
+| Gutters | `px-6` (24px) | All breakpoints — except the nav, which drops to `px-4` below `sm` so five items fit at 320px without wrapping to a third row. |
 
 Grid: 3 columns desktop → 2 tablet → 1 mobile, `gap-4`. Page-level layout uses
 CSS Grid; component-level uses Flexbox.
@@ -366,7 +382,8 @@ system preference. Recommendation: ship the media-query version, skip the toggle
 
 - Same box metrics as primary
 - Transparent fill, `border-strong` outline, `text-body` label
-- Hover: border → `text-disabled`; fill stays transparent
+- Hover: border **and** label → `accent`; fill stays transparent
+- **Not** `text-disabled`. That rule was unsatisfiable: this same section requires the border to clear 3:1, while `text-disabled` is documented three sections above as 2.5:1 in light. It also collided exactly with `border-strong` in dark once both became `#71717A`, making the hover a silent no-op. A hover must change hue and keep contrast — the same rule that governs every other link on the site.
 - **`border-strong` is the only affordance on this control** — no fill, no accent label, no underline. That is why it carries the same value in both themes (`#71717A`, dark 4.12:1 / light 4.63:1) rather than a per-theme neutral: WCAG 1.4.11 requires 3:1 for a UI component boundary that is the sole indicator, and per-theme values of `zinc-700`/`zinc-300` measured **1.91:1 and 1.42:1**. Do not "harmonise" this token back into the neutral ramp.
 
 Never more than two CTAs at the same visual level in one section.
@@ -435,14 +452,29 @@ block in [global.css](../../src/styles/global.css):
   --font-sans: 'Inter', system-ui, sans-serif;
   --font-mono: 'JetBrains Mono', Menlo, monospace;
 
+}
+
+/* Runtime values live in :root, NOT @theme — they must be overridable by the
+   light media query, and @theme resolves at build time. */
+:root {
   --spacing-section: clamp(4rem, 10vw, 7rem);
+  --measure: 41rem;
 }
 ```
 
-Every token declared in `@theme` generates utilities automatically
-(`text-accent`, `bg-accent-solid`, `py-section`). **Use the semantic utility, not
-the raw palette value** — `text-accent`, never `text-cyan-400`. That is the whole
-point of declaring the token.
+Every token declared in `@theme` generates a utility automatically (`text-accent`,
+`bg-accent-solid`). **Use the semantic utility, not the raw palette value** — `text-accent`,
+never `text-cyan-400`. That is the whole point of declaring the token.
+
+Tokens declared in `:root` generate **no** utility and must be consumed as arbitrary values
+(`py-[var(--spacing-section)]`). There is no `py-section`.
+
+**Source scanning is restricted to `src/`.** `global.css` carries `@source not` directives
+excluding `docs/` and `scripts/`. Without them Tailwind scans the whole repo — which meant
+the class names quoted in this document, and the replacement-hint table inside the token
+guard itself, were being generated into the production stylesheet. The guard was shipping
+the utilities it exists to forbid, at a cost of 21% of the total CSS. If you add a directory
+containing class-name-like strings, exclude it.
 
 ### Astro conventions
 
@@ -460,15 +492,41 @@ an awkward utility (`text-primary` → `text-text-primary`), the utility uses th
 shorter conventional form (`text-foreground`). Both names refer to one value —
 never introduce a third.
 
-Two tokens are consumed as arbitrary values rather than named utilities, because
-they are declared in `:root` rather than `@theme`: `max-w-[var(--measure)]` and
-`shadow-[var(--shadow-card)]`. If either gains a fourth consumer, promote it to a
-real `@theme` entry so it generates a utility the guard can reason about.
+**Four** tokens are consumed as arbitrary values rather than named utilities, because they
+are declared in `:root` rather than `@theme` — they have to be overridable per theme, and
+`@theme` resolves at build time:
+
+| Token | Consumed as | Consumers |
+|---|---|---|
+| `--measure` | `max-w-[var(--measure)]` | article wrapper |
+| `--measure-text` | `max-w-[var(--measure-text)]` | About intro block |
+| `--shadow-card` / `--shadow-card-hover` | `shadow-[var(--shadow-card)]` | both cards, sponsor panel |
+| `--spacing-section` | `mt-[var(--spacing-section)]` | footer |
+
+`--measure` is the padded-wrapper width; `--measure-text` is the same measure for an element
+already inside a padded container. Using the wrong one is a ~6-character error in either
+direction. If any gains a fourth consumer, promote it to a real `@theme` entry so it
+generates a utility the guard can reason about.
 
 ## Drift — Resolved
 
 All nine items resolved in phase 3.1 (2026-08-01); see
-[the UI contract](../plans/2026-08-01-design-system-adoption-ui-contract.md).
+[the UI contract](../plans/2026-08-01-design-system-adoption-ui-contract.md). Kept as a
+per-item checklist rather than a summary line: an earlier edit replaced the list with
+"all nine resolved" while item 5 was **still open**, which deleted the only thing a
+reviewer could check against. Claims of completion need to stay auditable.
+
+| # | Original item | Resolution |
+|---|---|---|
+| 1 | `text-cyan-400` and `text-accent` both in use for the same role | All raw palette utilities removed; enforced by `check-tokens.mjs` in CI |
+| 2 | `--color-accent-dark` darkened the accent on hover, lowering contrast | Token retired; nav wordmark hovers to `accent-hover` (lighter) |
+| 3 | Hero CTA used a raw palette fill | `accent-solid` with `accent-foreground` |
+| 4 | Card hover used a raw palette border | `accent-border` token |
+| 5 | No `prefers-reduced-motion` guard for the card lift | `translate: none !important` in the reduced-motion block. **Collapsing `transition-duration` alone was not enough** — it turned a 4px ease into a 4px snap, which is worse for a motion-sensitive reader than the unguarded original |
+| 6 | Sponsor pink used as a raw utility | Scoped `sponsor` / `sponsor-hover` tokens |
+| 7 | Article headings were accent-coloured | Headings are `foreground`; the accent means "interactive" again |
+| 8 | `zinc-500` carried real content at 4.3:1 | All meta text on `text-muted` (≥7.4:1 both themes) |
+| 9 | No `:focus-visible` styling anywhere | Global 2px accent ring, `offset-2`, verified on every tab stop |
 
 Enforcement is now automated: `scripts/check-tokens.mjs` runs in CI and fails the
 build on any raw palette utility, retired token, or theme-locked prose modifier
