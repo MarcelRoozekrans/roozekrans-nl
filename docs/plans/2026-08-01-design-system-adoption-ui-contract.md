@@ -19,7 +19,7 @@ system and adds the light theme.
 Three outcomes:
 
 1. Every themed value routes through a semantic `@theme` token — no raw palette utilities.
-2. The nine drift items in [MASTER.md → Known Drift](../design/MASTER.md#known-drift-to-resolve) are resolved, including two genuine accessibility defects.
+2. The nine drift items in [MASTER.md → Drift](../design/MASTER.md#drift--resolved) are resolved, including two genuine accessibility defects.
 3. `prefers-color-scheme: light` is honoured, with zero added client-side JavaScript.
 
 **Explicit non-goals:** no manual theme toggle (see MASTER.md rationale — it costs a
@@ -350,6 +350,26 @@ at **1.04:1** on `/`, `/projects`, `/blog`, `/about` and every post. Effectively
 This matters more than it might appear, because light is the majority path: per Media
 Queries L5, `prefers-color-scheme: light` matches both an explicit light preference *and*
 no active preference. The phase is all-or-nothing; there is no safe intermediate merge point.
+
+## Known Follow-ups (not defects in this phase)
+
+Surfaced by review during execution, deliberately left for a later pass:
+
+1. **Wide prose tables scroll with no visible affordance on mobile.** The page no longer
+   overflows, but Chrome's overlay scrollbars mean the cut-off third column gives the reader
+   no indication it can be scrolled. Needs a `scrollbar-gutter` or edge-fade treatment — a
+   design decision, not a defect fix.
+2. **A scrolling table no longer fills its column on desktop.** `display: block` makes the
+   table shrink to content (≈493px inside the 608px measure), so its rules stop short of the
+   text edge. Reads as tidy rather than broken, but it is a visible change.
+3. **`transition-colors` includes `outline-color`**, so a focus ring fades in from the
+   element's text colour before settling on the accent. Cosmetic, but it reintroduces exactly
+   the un-named-property animation the motion policy exists to prevent.
+4. **Two eyebrow treatments for one role** — `font-mono text-accent text-sm` on the home and
+   404 pages, `text-xs uppercase tracking-widest` on About. MASTER defines one `label` slot and
+   neither matches it.
+5. **Button heights vary by role** — nav and footer links and CTAs are now 44px, but the
+   design system has no single button primitive, so a sixth variant is one page away.
 
 ## Audit Target Summary
 
