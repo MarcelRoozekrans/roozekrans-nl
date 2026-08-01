@@ -22,9 +22,12 @@ TDD still applies, but the executable assertion for a token retrofit is a **guar
 **Baseline, verified 2026-08-01 before any work:**
 
 - `npm run check` → `0 errors, 0 warnings, 0 hints` across 15 files
-- 68 raw-utility occurrences across 10 `.astro` files
+- 71 lines containing raw palette utilities, across 11 files (10 `.astro` + `global.css`)
 
-If your baseline differs, stop and reconcile before starting.
+Note the guard reports **matches**, not lines, and several lines carry more than one
+violation (`about.astro:71` alone has five). Its count is therefore substantially higher
+than 71 — treat the file list, not the number, as the thing to reconcile against. What
+matters at the start: the guard fails, and it names all 11 files.
 
 ### Token name mapping
 
@@ -437,7 +440,14 @@ If `inline binding` is false, `@theme inline` is not behaving as assumed in the 
 **Step 4: Verify the guard dropped**
 
 Run: `npm run check:tokens`
-Expected: still FAILS, but `styles/global.css` no longer appears in the listing and the count is ~2 lower.
+Expected: still FAILS, but `styles/global.css` no longer appears in the listing and the count
+is 3 lower (it currently contributes the `--color-accent-dark` declaration plus `bg-zinc-950`
+and `text-white` in the `@apply`).
+
+The guard strips comment content before matching, so the `prose-invert` mentioned in this
+file's comments is not a violation. Do not reword those comments to appease it, and do not
+weaken the rule — if `global.css` still appears in the listing after this task, the comment
+stripper is broken and that is the bug to fix.
 
 **Step 5: Commit**
 
