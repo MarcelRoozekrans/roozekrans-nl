@@ -39,16 +39,145 @@
   unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
 }
 
+/* ---------------------------------------------------------------------------
+   Runtime theme variables.
+
+   Dark is canonical and applies with no media query and no JS. Light is an
+   equal-status alternative, not an inversion — the accent is re-derived
+   (#22d3ee measures ~1.7:1 on an off-white canvas) and the elevation model
+   flips from border-led to shadow-led. See docs/design/MASTER.md.
+
+   If a manual theme toggle is ever added, guard the light block with
+   :root:not([data-theme='dark']) and add explicit [data-theme] blocks. Not
+   needed today — a toggle costs a render-blocking script on a zero-JS site.
+   --------------------------------------------------------------------------- */
+:root {
+  color-scheme: dark;
+
+  --canvas: #09090b;
+  --surface: #18181b;
+  --surface-subtle: #0d0d10;
+  --line: #27272a;
+  --line-strong: #3f3f46;
+
+  --fg: #ffffff;
+  --fg-body: #d4d4d8;
+  --fg-muted: #a1a1aa;
+  --fg-disabled: #71717a;
+
+  --brand: #22d3ee;
+  --brand-hover: #67e8f9;
+  --brand-solid: #06b6d4;
+  --brand-solid-hover: #22d3ee;
+  --brand-on-solid: #09090b;
+  --brand-border: rgb(34 211 238 / 0.4);
+
+  --sponsor-fg: #f472b6;
+  --sponsor-bg: rgb(236 72 153 / 0.1);
+  --sponsor-line: rgb(236 72 153 / 0.4);
+
+  --ok: #4ade80;
+  --warn: #fbbf24;
+  --err: #f87171;
+  --info-fg: #60a5fa;
+
+  /* Dark elevation is border-led: shadows are invisible on near-black. */
+  --shadow-card: none;
+  --shadow-card-hover: none;
+  --shadow-sticky: none;
+
+  --hero-glow: rgb(34 211 238 / 0.08);
+
+  --spacing-section: clamp(4rem, 10vw, 7rem);
+  --measure: 68ch;
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    color-scheme: light;
+
+    --canvas: #fafafa;
+    --surface: #ffffff;
+    --surface-subtle: #f4f4f5;
+    --line: #e4e4e7;
+    --line-strong: #d4d4d8;
+
+    --fg: #18181b;
+    --fg-body: #27272a;
+    --fg-muted: #52525b;
+    --fg-disabled: #a1a1aa;
+
+    --brand: #0e7490;
+    --brand-hover: #155e75;
+    --brand-solid: #0e7490;
+    --brand-solid-hover: #155e75;
+    --brand-on-solid: #ffffff;
+    --brand-border: rgb(14 116 144 / 0.35);
+
+    --sponsor-fg: #be185d;
+    --sponsor-bg: rgb(190 24 93 / 0.08);
+    --sponsor-line: rgb(190 24 93 / 0.35);
+
+    --ok: #15803d;
+    --warn: #b45309;
+    --err: #b91c1c;
+    --info-fg: #1d4ed8;
+
+    /* Light elevation is shadow-led: a white card on off-white separated only
+       by a hairline reads as flat paper. Tinted with the canvas neutral, never
+       pure black — black shadows go muddy on a neutral canvas. */
+    --shadow-card: 0 1px 2px rgb(9 9 11 / 0.04), 0 1px 3px rgb(9 9 11 / 0.06);
+    --shadow-card-hover: 0 4px 6px rgb(9 9 11 / 0.05), 0 10px 15px rgb(9 9 11 / 0.08);
+    --shadow-sticky: 0 1px 3px rgb(9 9 11 / 0.08);
+
+    /* A glow on white reads as dirt, not light. Removed, not adapted. */
+    --hero-glow: transparent;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Token -> utility bindings. `inline` makes the generated utilities reference
+   the runtime variable directly, so the media query above can override them.
+   --------------------------------------------------------------------------- */
+@theme inline {
+  --color-background: var(--canvas);
+  --color-surface: var(--surface);
+  --color-surface-subtle: var(--surface-subtle);
+  --color-border: var(--line);
+  --color-border-strong: var(--line-strong);
+
+  --color-foreground: var(--fg);
+  --color-body: var(--fg-body);
+  --color-muted: var(--fg-muted);
+  --color-disabled: var(--fg-disabled);
+
+  --color-accent: var(--brand);
+  --color-accent-hover: var(--brand-hover);
+  --color-accent-solid: var(--brand-solid);
+  --color-accent-solid-hover: var(--brand-solid-hover);
+  --color-accent-foreground: var(--brand-on-solid);
+  --color-accent-border: var(--brand-border);
+
+  --color-sponsor: var(--sponsor-fg);
+  --color-sponsor-subtle: var(--sponsor-bg);
+  --color-sponsor-border: var(--sponsor-line);
+
+  --color-success: var(--ok);
+  --color-warning: var(--warn);
+  --color-error: var(--err);
+  --color-info: var(--info-fg);
+}
+
 @theme {
-  --color-accent: #22d3ee;
-  --color-accent-dark: #06b6d4;
   --font-sans: 'Inter', system-ui, sans-serif;
   --font-mono: 'JetBrains Mono', Menlo, monospace;
 }
 
 @layer base {
   html {
-    @apply bg-zinc-950 text-white scroll-smooth;
+    background-color: var(--canvas);
+    color: var(--fg-body);
+    scroll-behavior: smooth;
   }
 
   body {
@@ -57,5 +186,88 @@
 
   h1, h2, h3, h4 {
     @apply font-semibold;
+    color: var(--fg);
+    /* Clears the sticky nav when jumped to via anchor. */
+    scroll-margin-top: 5rem;
+  }
+
+  /* The site had no focus styling at all. This is the primary keyboard
+     affordance across every page — never remove it. */
+  :focus-visible {
+    outline: 2px solid var(--brand);
+    outline-offset: 2px;
+    border-radius: inherit;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Article prose. Driven entirely from tokens, which is what lets one rule set
+   serve both themes — the inverted-prose modifier is deleted outright, rather
+   than made theme-conditional.
+
+   Note: the token guard scans comments too (deliberately — see the header of
+   scripts/check-tokens.mjs), so avoid writing retired utility names literally
+   in comments here.
+   --------------------------------------------------------------------------- */
+@layer components {
+  .prose {
+    --tw-prose-body: var(--fg-body);
+    --tw-prose-headings: var(--fg);
+    --tw-prose-lead: var(--fg-muted);
+    --tw-prose-links: var(--brand);
+    --tw-prose-bold: var(--fg);
+    --tw-prose-counters: var(--fg-muted);
+    --tw-prose-bullets: var(--line-strong);
+    --tw-prose-hr: var(--line);
+    --tw-prose-quotes: var(--fg-body);
+    --tw-prose-quote-borders: var(--line);
+    --tw-prose-captions: var(--fg-muted);
+    --tw-prose-code: var(--brand);
+    --tw-prose-pre-code: var(--fg-body);
+    --tw-prose-pre-bg: var(--surface);
+    --tw-prose-th-borders: var(--line);
+    --tw-prose-td-borders: var(--line);
+
+    font-size: 1.0625rem;   /* 17px — reading-optimized */
+    line-height: 1.7;
+    max-width: var(--measure);
+  }
+
+  /* Colour alone is insufficient to identify a link in body copy. */
+  .prose :where(a):not(:where([class~='not-prose'] *)) {
+    text-decoration-line: underline;
+    text-underline-offset: 2px;
+  }
+
+  .prose :where(code):not(:where(pre *)) {
+    background-color: var(--surface-subtle);
+    padding: 0.125rem 0.375rem;
+    border-radius: 0.25rem;
+    font-weight: 400;
+  }
+
+  .prose :where(code):not(:where(pre *))::before,
+  .prose :where(code):not(:where(pre *))::after {
+    content: none;
+  }
+
+  .prose :where(pre) {
+    border: 1px solid var(--line);
+  }
+}
+
+@media (prefers-color-scheme: light) {
+  /* Code lifts above the page in dark mode and recedes in light mode. */
+  .prose {
+    --tw-prose-pre-bg: var(--surface-subtle);
   }
 }
