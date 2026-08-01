@@ -1040,7 +1040,7 @@ Split across two commits. The measure change is visible on every existing post, 
       <time datetime={date.toISOString()} class="font-mono text-sm text-muted">{formattedDate}</time>
     </header>
 
-    <div class="prose max-w-none">
+    <div class="prose">
       <slot />
     </div>
   </article>
@@ -1053,7 +1053,10 @@ Four fixes here, all contracted:
 - The long `prose-*` modifier chain is deleted; those rules now live in `global.css`.
 - Date moves off failing `zinc-500`; `<time>` gains `datetime`.
 
-`max-w-none` on `.prose` lets the `article` wrapper own the measure.
+**Do not add `max-w-none`.** The `.prose` rules in `global.css` are unlayered, which is what
+makes them beat the typography plugin — but it also means no utility class can override them,
+`max-w-none` included. `.prose` therefore sets no `max-width` at all; the `article` wrapper
+owns the measure via `max-w-[var(--measure)]`, and adding `max-w-none` would be inert.
 
 **Step 2: Verify and commit the token work**
 

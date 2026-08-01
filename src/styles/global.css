@@ -94,12 +94,19 @@
 
   --spacing-section: clamp(4rem, 10vw, 7rem);
 
-  /* Article measure. Deliberately NOT in `ch` — `ch` is the advance of the `0`
-     glyph, which in Inter is ~32% wider than average lowercase, so `68ch` reads
-     as ~90 characters rather than 68. 38rem is ~75 characters at the 17px prose
-     size: the top of the comfortable 45-75 range, and wide enough that code
-     samples stay readable on a technical blog. */
-  --measure: 38rem;
+  /* Article measure — the max-width of the *padded article wrapper*, not of the
+     text itself. Preflight sets box-sizing: border-box, so the wrapper's px-6
+     gutters (3rem total) come out of this figure: 41rem - 3rem = 38rem ≈ 608px
+     of actual text, ≈75 characters at the 17px prose size. That is the top of
+     the comfortable 45-75 range, and wide enough that code samples stay
+     readable on a technical blog.
+
+     Deliberately NOT in `ch`. `ch` is the advance of the `0` glyph, which in
+     Inter runs ~32% wider than average lowercase — so `68ch` renders ~90
+     characters, not 68. A measure in `ch` reads as a character count and is
+     not one. Apply this to a wrapper carrying px-6; on an unpadded element it
+     runs ~6 characters wide. */
+  --measure: 41rem;
 }
 
 @media (prefers-color-scheme: light) {
@@ -233,6 +240,13 @@
    Unlayered styles outrank all layered ones, so this is the only placement
    that wins. Do not wrap this block in a layer.
 
+   The cost of that placement: these declarations can no longer be overridden
+   by a utility class or a prose-* variant modifier — unlayered beats them too.
+   To change any of it for one page, edit this block or add a modifier class
+   alongside it; adding a utility to the element will silently do nothing.
+   This is also why no max-width is set here: the article wrapper owns the
+   measure, and a max-width here would be unoverridable and would win.
+
    Note: the token guard scans comments too (deliberately — see the header of
    scripts/check-tokens.mjs), so avoid writing retired utility names literally
    in comments here.
@@ -257,7 +271,15 @@
 
   font-size: 1.0625rem;   /* 17px — reading-optimized */
   line-height: 1.7;
-  max-width: var(--measure);
+
+  /* Cede the measure to the article wrapper, explicitly. The typography plugin
+     sets max-width: 65ch on .prose, which at the 17px prose size is ~697px /
+     ~86 characters — the exact ch-based overshoot --measure exists to avoid.
+     It happens not to bind while the wrapper is narrower, but leaving it in
+     force means one layout change silently restores an 86-character measure.
+     `none` here is unoverridable (these rules are unlayered), which is what we
+     want: exactly one element decides the measure, and it is the wrapper. */
+  max-width: none;
 }
 
 /* Colour alone is insufficient to identify a link in body copy. */
