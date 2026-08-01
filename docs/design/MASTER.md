@@ -81,9 +81,9 @@ GitHub Sponsors link, breaks the system. Light-mode value is `#BE185D`
 |---|---|---|---|
 | `background` | `#09090B` | `zinc-950` | Page canvas. |
 | `surface` | `#18181B` | `zinc-900` | Cards, panels, code blocks. |
-| `surface-subtle` | `rgba(24,24,27,0.30)` | `zinc-900/30` | Banded sections (stats row) — a tint, not a step. |
+| `surface-subtle` | `#141418` | — | Banded sections (stats row). The original `zinc-900/30` composited to a 4/255 step off the canvas — measured 1.025:1, which read as an ordinary hairline-separated section rather than a band. A tint still, but a perceptible one. |
 | `border` | `#27272A` | `zinc-800` | Default hairlines, card and section dividers. |
-| `border-strong` | `#3F3F46` | `zinc-700` | Secondary button outline, input borders. |
+| `border-strong` | `#71717A` | `zinc-500` | Secondary button outline, input borders, prose bullets. **Identical in both themes** — see note below. |
 | `text-primary` | `#FFFFFF` | `white` | Headings, card titles, emphasis. |
 | `text-body` | `#D4D4D8` | `zinc-300` | Long-form prose. |
 | `text-muted` | `#A1A1AA` | `zinc-400` | Descriptions, metadata, dates. Contrast ≈ 8.0:1. |
@@ -216,7 +216,7 @@ flipped, and getting these wrong is what makes a bolted-on light mode look cheap
 | `surface` | `#FFFFFF` | `white` | Cards, panels, code blocks. Lifts *toward* light, mirroring the dark theme's logic. | — |
 | `surface-subtle` | `#F4F4F5` | `zinc-100` | Banded sections (stats row). | — |
 | `border` | `#E4E4E7` | `zinc-200` | Hairlines, dividers. | — |
-| `border-strong` | `#D4D4D8` | `zinc-300` | Secondary button outline, inputs. | — |
+| `border-strong` | `#71717A` | `zinc-500` | Secondary button outline, inputs. Same value as dark. | 4.63:1 |
 | `text-primary` | `#18181B` | `zinc-900` | Headings, card titles. Not pure black — pure black on off-white is harsh. | 16.8:1 |
 | `text-body` | `#27272A` | `zinc-800` | Long-form prose. | 14.3:1 |
 | `text-muted` | `#52525B` | `zinc-600` | Descriptions, metadata, dates. | 7.3:1 |
@@ -280,7 +280,7 @@ in this system.
 | Hero | The `accent-subtle` radial glow is removed entirely — a glow on white is dirt, not light. Use plain `background` with the section hairline instead. |
 | Tag / Badge | `chip` fill resolves to `#F4F4F5` — a step *down* from the white card, inverting the dark-mode relationship. Handled by the token; no per-theme markup. |
 | Nav | Carries `--shadow-sticky` unconditionally, alongside the hairline. Not scroll-conditional: that would require a scroll listener, and this site ships no client-side JS. The shadow token is `none` in dark, so the rule costs nothing there. |
-| Code block | `surface-subtle` fill, not `surface` — code should recede from body copy here, whereas in dark mode it lifts. Shiki needs a paired light theme configured. |
+| Code block | `code-bg` resolves to `surface-subtle` — code recedes from body copy in light, whereas in dark it lifts. **Shiki must be configured with `defaultColor: false`**, otherwise it writes colours as inline styles that no stylesheet can override, and `code-bg` has no effect at all. |
 | Secondary button | Border `border-strong`; hover darkens border to `text-disabled`, fill stays transparent. |
 
 Everything else — the type scale, spacing, radii, layout widths, motion rules,
@@ -353,7 +353,8 @@ system preference. Recommendation: ship the media-query version, skip the toggle
 
 - Same box metrics as primary
 - Transparent fill, `border-strong` outline, `text-body` label
-- Hover: border → `text-disabled` value (`zinc-500`); fill stays transparent
+- Hover: border → `text-disabled`; fill stays transparent
+- **`border-strong` is the only affordance on this control** — no fill, no accent label, no underline. That is why it carries the same value in both themes (`#71717A`, dark 4.12:1 / light 4.63:1) rather than a per-theme neutral: WCAG 1.4.11 requires 3:1 for a UI component boundary that is the sole indicator, and per-theme values of `zinc-700`/`zinc-300` measured **1.91:1 and 1.42:1**. Do not "harmonise" this token back into the neutral ramp.
 
 Never more than two CTAs at the same visual level in one section.
 

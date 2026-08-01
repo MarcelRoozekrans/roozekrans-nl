@@ -1110,7 +1110,15 @@ This is the one change a returning reader will notice. It is already committed a
 **Files:**
 - Modify: `astro.config.mjs`
 
-**Step 1: Add the theme pair**
+> **Read this before writing any CSS.** Shiki writes token colours and the code
+> background as **inline `style` attributes**. Inline styles beat unlayered CSS, `@layer`
+> rules, `prose-pre:*` utilities and `--tw-prose-pre-bg` alike. The current build emits
+> `class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8"` — which
+> is why `--code-bg` currently has **no effect on code blocks at all**, despite being wired
+> into `--tw-prose-pre-bg`. This is a config problem, not a CSS problem. Adding `themes:
+> { light, dark }` alone does **not** fix it.
+
+**Step 1: Configure dual themes with `defaultColor: false`**
 
 ```js
 export default defineConfig({
@@ -1123,6 +1131,11 @@ export default defineConfig({
         light: 'github-light',
         dark: 'github-dark',
       },
+      // Without this, Shiki bakes one theme's colours in as inline style
+      // declarations that no stylesheet can override. With it, it emits
+      // --shiki-light / --shiki-dark custom properties instead and leaves the
+      // choice to CSS.
+      defaultColor: false,
       wrap: true,
     },
   },
@@ -1135,16 +1148,56 @@ export default defineConfig({
 });
 ```
 
-Astro's dual-theme Shiki output is driven by CSS variables and switches on `prefers-color-scheme` automatically — no extra CSS needed. `wrap: true` prevents horizontal page overflow from long code lines on mobile.
+`wrap: true` prevents horizontal page overflow from long code lines on mobile.
 
-**Step 2: Verify**
+**Step 2: Add the CSS that selects between them**
+
+`defaultColor: false` emits the variables but applies neither. Add to the unlayered section
+of `src/styles/global.css`, next to the `.prose` rules:
+
+```css
+/* Shiki emits --shiki-light / --shiki-dark per token and leaves the choice to us.
+   Dark is the fallback, light is the query — matching the theme structure above.
+   The background deliberately ignores Shiki's own theme background in favour of
+   --code-bg, so code blocks sit on the design system's surfaces rather than on
+   GitHub's. */
+.astro-code,
+.astro-code span {
+  color: var(--shiki-dark);
+}
+
+.astro-code {
+  background-color: var(--code-bg);
+}
+
+@media (prefers-color-scheme: light) {
+  .astro-code,
+  .astro-code span {
+    color: var(--shiki-light);
+  }
+}
+```
+
+**Step 3: Verify — and verify against `dist/`, not the dev server**
 
 Run: `npm run check && npm run build`
-Expected: 0 errors.
 
-**Step 3: Confirm both themes render**
+The colours are baked at build time, so a dev-server check is not sufficient evidence.
+Serve `dist/` and inspect a post with a fenced code block (`/blog/adonet-async-intro`).
 
-Run `npm run dev`, open a post containing a fenced code block (`/blog/adonet-async-intro`). Toggle your OS between light and dark appearance. Expected: the code block re-themes without a reload.
+Confirm all four:
+
+1. The built HTML contains `--shiki-light` and `--shiki-dark` custom properties and **no**
+   inline `color:`/`background-color:` hex on `.astro-code` or its spans. If inline hex is
+   still present, `defaultColor: false` did not take effect — stop and fix that rather than
+   reaching for `!important`.
+2. Token colours differ between the two schemes (sample one keyword span's computed
+   `color` under each).
+3. The code block background computes to `var(--code-bg)` — `#18181b` in dark, `#f4f4f5`
+   in light — not GitHub's `#24292e`.
+4. Body text inside `pre` clears 4.5:1 against that background in **both** schemes. Report
+   the measured ratios; `github-light` on a light surface is the pairing most likely to be
+   marginal.
 
 **Step 4: Commit**
 
