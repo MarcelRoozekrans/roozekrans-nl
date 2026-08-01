@@ -10,11 +10,11 @@ const pathname = Astro.url.pathname;
 ---
 
 <header class="sticky top-0 z-50 border-b border-border bg-background/90 backdrop-blur shadow-[var(--shadow-sticky)]">
-  <nav class="mx-auto flex max-w-5xl items-center justify-between px-6 py-4">
-    <a href="/" class="font-mono text-lg font-semibold text-accent hover:text-accent-hover transition-colors">
+  <nav class="mx-auto flex max-w-5xl flex-wrap items-center justify-between gap-x-4 gap-y-2 px-4 sm:px-6 py-3">
+    <a href="/" class="font-mono text-base sm:text-lg font-semibold text-accent hover:text-accent-hover transition-colors">
       roozekrans.nl
     </a>
-    <ul class="flex gap-6">
+    <ul class="flex flex-wrap items-center gap-x-4 gap-y-1 sm:gap-6">
       {navLinks.map(({ href, label }) => {
         const isCurrent = pathname === href || (href !== '/' && pathname.startsWith(href));
         return (
@@ -22,13 +22,11 @@ const pathname = Astro.url.pathname;
             <a
               href={href}
               aria-current={isCurrent ? 'page' : undefined}
-              class={`text-sm font-medium transition-colors py-2 ${
-                isCurrent
-                  ? 'text-accent border-b border-accent'
-                  : 'text-muted hover:text-foreground'
+              class={`inline-flex min-h-11 items-center text-sm transition-colors ${
+                isCurrent ? 'font-semibold text-accent' : 'font-medium text-muted hover:text-foreground'
               }`}
             >
-              {label}
+              <span class={isCurrent ? 'border-b border-accent pb-0.5' : ''}>{label}</span>
             </a>
           </li>
         );

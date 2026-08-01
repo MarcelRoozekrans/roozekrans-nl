@@ -12,32 +12,32 @@ interface Props {
 const { title, description, tags, github, nuget, marketplace, docs } = Astro.props;
 ---
 
-<article class="group rounded-xl border border-border bg-surface p-6 shadow-[var(--shadow-card)] hover:-translate-y-1 hover:border-accent-border hover:shadow-[var(--shadow-card-hover)] transition-all duration-200">
-  <h3 class="font-semibold text-foreground text-lg mb-2">{title}</h3>
+<article class="group rounded-xl border border-border bg-surface p-6 shadow-[var(--shadow-card)] hover:-translate-y-1 hover:border-accent-border hover:shadow-[var(--shadow-card-hover)] transition-[translate,border-color,box-shadow] duration-200">
+  <h3 class="font-semibold text-foreground text-lg mb-2 break-words">{title}</h3>
   <p class="text-muted text-sm mb-4 leading-relaxed">{description}</p>
   <div class="flex flex-wrap gap-2 mb-4">
     {tags.map(tag => (
-      <span class="font-mono text-xs bg-surface-subtle text-accent px-2 py-0.5 rounded">{tag}</span>
+      <span class="font-mono text-xs bg-chip text-accent px-2 py-0.5 rounded">{tag}</span>
     ))}
   </div>
   <div class="flex flex-wrap gap-3 text-sm">
     {github && (
-      <a href={github} target="_blank" rel="noopener" class="text-muted hover:text-accent transition-colors">
+      <a href={github} target="_blank" rel="noopener" aria-label={`${title} on GitHub`} class="text-muted hover:text-accent transition-colors">
         GitHub <span aria-hidden="true">&rarr;</span>
       </a>
     )}
     {nuget && (
-      <a href={nuget} target="_blank" rel="noopener" class="text-muted hover:text-accent transition-colors">
+      <a href={nuget} target="_blank" rel="noopener" aria-label={`${title} on NuGet`} class="text-muted hover:text-accent transition-colors">
         NuGet <span aria-hidden="true">&rarr;</span>
       </a>
     )}
     {marketplace && (
-      <a href={marketplace} target="_blank" rel="noopener" class="text-muted hover:text-accent transition-colors">
+      <a href={marketplace} target="_blank" rel="noopener" aria-label={`${title} on the marketplace`} class="text-muted hover:text-accent transition-colors">
         Marketplace <span aria-hidden="true">&rarr;</span>
       </a>
     )}
     {docs && (
-      <a href={docs} target="_blank" rel="noopener" class="text-muted hover:text-accent transition-colors">
+      <a href={docs} target="_blank" rel="noopener" aria-label={`${title} documentation`} class="text-muted hover:text-accent transition-colors">
         Docs <span aria-hidden="true">&rarr;</span>
       </a>
     )}

@@ -60,6 +60,11 @@
   --canvas: #09090b;
   --surface: #18181b;
   --surface-subtle: #0d0d10;
+  /* Chips sit one step *up* from the card in dark and one step *down* in
+     light, so they read as raised labels rather than holes punched in the
+     card. That inversion is why they cannot share the subtle-surface token,
+     which recedes in both themes. */
+  --chip: #27272a;
   --code-bg: var(--surface);
   --line: #27272a;
   --line-strong: #3f3f46;
@@ -77,6 +82,7 @@
   --brand-border: rgb(34 211 238 / 0.4);
 
   --sponsor-fg: #f472b6;
+  --sponsor-fg-hover: #f9a8d4;
   --sponsor-bg: rgb(236 72 153 / 0.1);
   --sponsor-line: rgb(236 72 153 / 0.4);
 
@@ -116,6 +122,7 @@
     --canvas: #fafafa;
     --surface: #ffffff;
     --surface-subtle: #f4f4f5;
+    --chip: #f4f4f5;
     /* Code lifts above the page in dark mode and recedes in light mode. */
     --code-bg: var(--surface-subtle);
     --line: #e4e4e7;
@@ -134,6 +141,7 @@
     --brand-border: rgb(14 116 144 / 0.35);
 
     --sponsor-fg: #be185d;
+    --sponsor-fg-hover: #9d174d;
     --sponsor-bg: rgb(190 24 93 / 0.08);
     --sponsor-line: rgb(190 24 93 / 0.35);
 
@@ -162,6 +170,7 @@
   --color-background: var(--canvas);
   --color-surface: var(--surface);
   --color-surface-subtle: var(--surface-subtle);
+  --color-chip: var(--chip);
   --color-border: var(--line);
   --color-border-strong: var(--line-strong);
 
@@ -178,6 +187,7 @@
   --color-accent-border: var(--brand-border);
 
   --color-sponsor: var(--sponsor-fg);
+  --color-sponsor-hover: var(--sponsor-fg-hover);
   --color-sponsor-subtle: var(--sponsor-bg);
   --color-sponsor-border: var(--sponsor-line);
 
