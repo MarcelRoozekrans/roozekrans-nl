@@ -4,14 +4,14 @@
 const buildYear = new Date().getFullYear();
 ---
 
-<footer class="border-t border-zinc-800 py-8 mt-20">
-  <div class="mx-auto max-w-5xl px-6 flex items-center justify-between text-zinc-400 text-sm">
+<footer class="border-t border-border py-8 mt-[var(--spacing-section)]">
+  <div class="mx-auto max-w-5xl px-6 flex flex-wrap items-center justify-between gap-4 text-muted text-sm">
     <span>&copy; <span id="copyright-year">{buildYear}</span> Marcel Roozekrans</span>
-    <div class="flex gap-4">
+    <div class="flex flex-wrap gap-4">
       <a href="https://github.com/MarcelRoozekrans" target="_blank" rel="noopener" class="hover:text-accent transition-colors">GitHub</a>
       <a href="https://www.nuget.org/profiles/MarcelRoozekrans" target="_blank" rel="noopener" class="hover:text-accent transition-colors">NuGet</a>
       <a href="https://www.linkedin.com/in/marcelroozekrans/" target="_blank" rel="noopener" class="hover:text-accent transition-colors">LinkedIn</a>
-      <a href="https://github.com/sponsors/MarcelRoozekrans" target="_blank" rel="noopener" class="text-pink-400 hover:text-pink-300 transition-colors">Sponsor</a>
+      <a href="https://github.com/sponsors/MarcelRoozekrans" target="_blank" rel="noopener" class="text-sponsor hover:opacity-80 transition-opacity">Sponsor</a>
     </div>
   </div>
 </footer>
