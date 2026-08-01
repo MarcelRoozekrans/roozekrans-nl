@@ -19,8 +19,8 @@ kept deliberately rather than by default: they already carry the site's identity
 they clear WCAG AA comfortably on near-black, and cyan does not collide with any
 of the four semantic colors. What is new here is everything around them — a
 defined neutral ramp, a reading-optimized type scale, a section rhythm, and
-component specs that remove the current token drift (see
-[Known Drift](#known-drift-to-resolve)).
+component specs that removed the original token drift (see
+[Drift — Resolved](#drift--resolved)).
 
 **No secondary hue.** A second brand color is the most common way a "clean &
 minimal" system degrades. Depth comes from surface elevation and border weight
@@ -51,6 +51,13 @@ UIs go muddy on `#09090B` and are not part of this system.
 | `warning` | `#FBBF24` | Deprecated / preview / archived project markers. |
 | `error` | `#F87171` | Form errors, broken-link and 404 messaging. |
 | `info` | `#60A5FA` | Neutral notices. Distinct in hue from `accent` — do not swap the two. |
+
+**These four are currently reserved, not used.** They are defined for both themes
+and generate utilities, but no component consumes them — the site has no status
+surfaces yet. They are kept because 404 messaging, deprecated-project markers and
+build-status badges are all foreseeable. If they are still unused at the next
+review, delete them: a system with a third of its colour slots dormant is how
+tokens start drifting back to raw utilities.
 
 Semantic colors must always pair with a text label or icon. Color alone never
 conveys state.
@@ -165,6 +172,12 @@ Base unit: 4px.
 --spacing-section: clamp(4rem, 10vw, 7rem);   /* 64px → 112px */
 --spacing-section-hero: clamp(5rem, 12vw, 9rem);
 ```
+
+**Partially implemented.** `--spacing-section` is currently consumed in exactly
+one place (the footer's top margin); every section uses a flat `py-16` instead,
+and `--spacing-section-hero` was never added. The clamped rhythm described here
+is therefore aspirational rather than in force. Either wire it through or reduce
+this section to what is real — but do not leave it ambiguous.
 
 Sections are separated by a `border` hairline, not by a background change. The
 stats band is the one exception — `surface-subtle` marks it as a distinct kind of
@@ -438,21 +451,36 @@ point of declaring the token.
 - Images require explicit `width`/`height` to prevent CLS.
 - Syntax highlighting via Shiki at build time (already configured through `@astrojs/mdx`).
 
-## Known Drift to Resolve
+### Token name bindings
 
-The current implementation predates this document and mixes token layers. Worth
-fixing on the next UI pass — none of it is user-visible today, but it is what
-makes the system erode:
+This document names tokens conceptually; Tailwind derives utility names from CSS
+variables. The bindings live in the `@theme inline` block of
+[global.css](../../src/styles/global.css). Where a conceptual name would produce
+an awkward utility (`text-primary` → `text-text-primary`), the utility uses the
+shorter conventional form (`text-foreground`). Both names refer to one value —
+never introduce a third.
 
-1. `text-cyan-400` and `text-accent` are both in use for the same role ([index.astro](../../src/pages/index.astro), [ProjectCard.astro](../../src/components/ProjectCard.astro)). Standardize on `text-accent`.
-2. `--color-accent-dark` is referenced exactly once, as the nav wordmark hover ([Nav.astro:14](../../src/components/Nav.astro#L14)) — and in the wrong direction: it darkens the accent on hover, *lowering* contrast against the near-black canvas. Replace with `accent-hover` (lighter) and retire the token.
-3. Hero CTA uses `bg-cyan-400` / `hover:bg-cyan-300`; the spec above is `accent-solid` (`#06B6D4`) with a lighter hover.
-4. Card hover uses `hover:border-cyan-400/40` directly rather than an `accent-border` token.
-5. No `prefers-reduced-motion` guard exists yet for the card `-translate-y-1` hover.
-6. **Sponsor pink is used as a raw utility.** `pink-400`/`pink-500` in [Footer.astro:14](../../src/components/Footer.astro#L14) and [about.astro:71](../../src/pages/about.astro#L71). Resolved 2026-08-01: the hue is sanctioned as the scoped [`sponsor`](#sponsor-sanctioned-exception) token, but must route through it — the raw `pink-400` fails contrast on the light canvas.
-7. **Article headings are accent-colored** (`prose-headings:text-cyan-400` in [BlogPostLayout.astro:57](../../src/layouts/BlogPostLayout.astro#L57)). This breaks the core thesis — if headings are cyan, cyan stops meaning "interactive". Headings should be `text-primary`.
-8. **`zinc-500` is carrying real content**: post dates ([BlogCard.astro:20](../../src/components/BlogCard.astro#L20), [BlogPostLayout.astro:53](../../src/layouts/BlogPostLayout.astro#L53)) and the blog empty state. At 4.3:1 this fails WCAG AA — an accessibility defect, not just drift.
-9. **No `:focus-visible` styling exists anywhere.** The spec'd focus ring is currently unimplemented across the entire site.
+Two tokens are consumed as arbitrary values rather than named utilities, because
+they are declared in `:root` rather than `@theme`: `max-w-[var(--measure)]` and
+`shadow-[var(--shadow-card)]`. If either gains a fourth consumer, promote it to a
+real `@theme` entry so it generates a utility the guard can reason about.
+
+## Drift — Resolved
+
+All nine items resolved in phase 3.1 (2026-08-01); see
+[the UI contract](../plans/2026-08-01-design-system-adoption-ui-contract.md).
+
+Enforcement is now automated: `scripts/check-tokens.mjs` runs in CI and fails the
+build on any raw palette utility, retired token, or theme-locked prose modifier
+under `src/`. It deliberately scans comments as well as code — an earlier attempt
+at comment stripping was removed because a hand-rolled stripper could silently
+blank a whole file and turn the gate into a no-op with a passing build. A false
+positive on a comment is noisy and self-announcing; a stripper that fails
+silently is not.
+
+If new drift appears, add a rule to that script rather than only noting it here.
+A documented convention with no enforcement is exactly how the first nine
+happened.
 
 ## Anti-Patterns
 
