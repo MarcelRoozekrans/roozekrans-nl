@@ -246,8 +246,10 @@
   h1, h2, h3, h4 {
     @apply font-semibold;
     color: var(--fg);
-    /* Clears the sticky nav when jumped to via anchor. */
-    scroll-margin-top: 5rem;
+    /* Clears the sticky nav when jumped to via anchor. 6.5rem = 104px, sized
+       against the mobile nav's tallest state (101px at <=639px, where it wraps
+       to two rows of 44px targets), not the desktop bar. */
+    scroll-margin-top: 6.5rem;
   }
 
   /* The site had no focus styling at all. This is the primary keyboard
@@ -313,6 +315,12 @@
   --tw-prose-pre-bg: var(--code-bg);
   --tw-prose-th-borders: var(--line);
   --tw-prose-td-borders: var(--line);
+  /* The plugin declares 18 of these; the two below are easy to miss because no
+     content uses <kbd> yet. Left unset they fall through to the plugin's light
+     defaults, which is near-black type on the dark canvas — and because this
+     block is unlayered, no utility could correct it afterwards. */
+  --tw-prose-kbd: var(--fg);
+  --tw-prose-kbd-shadows: var(--line-strong);
 
   font-size: 1.0625rem;   /* 17px — reading-optimized */
   line-height: 1.7;
@@ -339,7 +347,11 @@
 }
 
 .prose :where(code):not(:where(pre *)) {
-  background-color: var(--surface-subtle);
+  /* The chip token, not the subtle surface: inline code is a raised label in
+     running text, exactly like a tag chip, and the subtle surface recedes in
+     both themes. Routing it there made inline code sink below the canvas in
+     dark, against a baseline where it sat above. */
+  background-color: var(--chip);
   padding: 0.125rem 0.375rem;
   border-radius: 0.25rem;
   font-weight: 400;

@@ -22,22 +22,22 @@ const { title, description, tags, github, nuget, marketplace, docs } = Astro.pro
   </div>
   <div class="flex flex-wrap gap-3 text-sm">
     {github && (
-      <a href={github} target="_blank" rel="noopener" aria-label={`${title} on GitHub`} class="text-muted hover:text-accent transition-colors">
+      <a href={github} target="_blank" rel="noopener" aria-label={`${title} on GitHub`} class="inline-flex min-h-11 items-center gap-1 text-muted hover:text-accent transition-colors">
         GitHub <span aria-hidden="true">&rarr;</span>
       </a>
     )}
     {nuget && (
-      <a href={nuget} target="_blank" rel="noopener" aria-label={`${title} on NuGet`} class="text-muted hover:text-accent transition-colors">
+      <a href={nuget} target="_blank" rel="noopener" aria-label={`${title} on NuGet`} class="inline-flex min-h-11 items-center gap-1 text-muted hover:text-accent transition-colors">
         NuGet <span aria-hidden="true">&rarr;</span>
       </a>
     )}
     {marketplace && (
-      <a href={marketplace} target="_blank" rel="noopener" aria-label={`${title} on the marketplace`} class="text-muted hover:text-accent transition-colors">
+      <a href={marketplace} target="_blank" rel="noopener" aria-label={`${title} on the marketplace`} class="inline-flex min-h-11 items-center gap-1 text-muted hover:text-accent transition-colors">
         Marketplace <span aria-hidden="true">&rarr;</span>
       </a>
     )}
     {docs && (
-      <a href={docs} target="_blank" rel="noopener" aria-label={`${title} documentation`} class="text-muted hover:text-accent transition-colors">
+      <a href={docs} target="_blank" rel="noopener" aria-label={`${title} documentation`} class="inline-flex min-h-11 items-center gap-1 text-muted hover:text-accent transition-colors">
         Docs <span aria-hidden="true">&rarr;</span>
       </a>
     )}
