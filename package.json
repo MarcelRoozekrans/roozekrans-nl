@@ -8,6 +8,7 @@
   "scripts": {
     "dev": "astro dev",
     "check": "astro check",
+    "check:tokens": "node scripts/check-tokens.mjs",
     "build": "astro build",
     "preview": "npm run build && wrangler dev",
     "astro": "astro",
