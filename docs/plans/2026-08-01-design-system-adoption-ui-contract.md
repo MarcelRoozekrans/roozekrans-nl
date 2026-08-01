@@ -203,7 +203,7 @@ The largest visual change in the phase.
 | Change | From | To | Reason |
 |---|---|---|---|
 | Heading colour | `prose-headings:text-cyan-400` | `text-primary` | **Core thesis violation** — cyan headings destroy the "accent = interactive" signal |
-| Measure | `max-w-3xl` (768px) | `68ch` (~680px) | Readability spec |
+| Measure | `max-w-3xl` (768px, ~94 chars) | `var(--measure)` — 38rem ≈ 608px, ~75 chars | Readability spec |
 | Body size | typography default (16px) | `body` — 17px / 1.7 | Reading-optimised |
 | Date | `text-zinc-500` | `text-muted` | **Fails AA** |
 | Prose links | `no-underline`, underline on hover | **always underlined**, `underline-offset-2` | Colour alone is insufficient in body copy |
@@ -218,7 +218,7 @@ No structural changes. Per-page token substitutions only:
 
 - **index** — hero eyebrow/CTAs to tokens; CTA `bg-cyan-400` → `accent-solid` with `accent-foreground`; hero radial glow must be **removed in light mode** (a glow on white reads as dirt).
 - **projects / blog** — headings, intro copy, grid gaps to tokens. Blog empty state: `text-zinc-500` → `text-muted`, and add a CTA per the empty-state spec below.
-- **about** — `text-cyan-400` category headings and `◆` bullets → `text-accent`; `max-w-3xl` prose → `68ch`; "Find Me" buttons → secondary-button spec; sponsor CTA `bg-pink-500/10 border-pink-500/40 text-pink-400` → `sponsor-subtle` / `sponsor` tokens.
+- **about** — `text-cyan-400` category headings and `◆` bullets → `text-accent`; `max-w-3xl` prose → `var(--measure)`; "Find Me" buttons → secondary-button spec; sponsor CTA `bg-pink-500/10 border-pink-500/40 text-pink-400` → `sponsor-subtle` / `sponsor` tokens.
 - **404** — `text-cyan-400` / `hover:text-cyan-300` → `accent` / `accent-hover`.
 
 ---
@@ -247,7 +247,7 @@ so `ui-review` has a target at each breakpoint.
 └──────────────────────────────────────────────┘
 ```
 
-Shell `max-w-5xl` (1024px), gutters `px-6`. Article pages: single centred `68ch` column.
+Shell `max-w-5xl` (1024px), gutters `px-6`. Article pages: single centred `var(--measure)` column.
 
 ### Tablet (768–1279px)
 
@@ -323,9 +323,17 @@ All resolved 2026-08-01. No blockers remain — implementation may proceed.
    exception — it is not precedent for further hues. Light value `#BE185D` (5.8:1); the
    existing `pink-400` stays as the dark value (7.5:1).
 
-2. **Blog article measure** — ✅ **Resolved: narrow to 68ch.** Accepted as a visible change
-   to every existing post. This is the one change in the phase a returning reader will notice,
-   so it should land in its own commit for easy revert.
+2. **Blog article measure** — ✅ **Resolved: narrow to `--measure` (38rem ≈ 608px, ~75
+   characters).** Accepted as a visible change to every existing post. This is the one change
+   in the phase a returning reader will notice, so it should land in its own commit for easy
+   revert.
+
+   *Revised 2026-08-01 during Task 2.* This was originally resolved as "68ch (~680px)" —
+   both figures were wrong and they were not equivalent. Measured with Inter loaded at the
+   17px prose size, `1ch` is the advance of the `0` glyph (10.7px) while average lowercase is
+   8.1px, so `68ch` renders ~90 characters at ~729px — barely narrower than the 768px it was
+   meant to replace, and outside the 45–75 comfortable range. The measure is now expressed in
+   `rem` so it cannot drift with glyph metrics again.
 
 3. **Shiki theme pairing** — ✅ **Resolved: `github-dark` / `github-light`.** Neutral and
    high-legibility; does not compete with the cyan accent.

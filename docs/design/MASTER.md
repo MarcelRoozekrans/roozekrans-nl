@@ -129,7 +129,8 @@ Headings scale by ratio ~1.2 and never exceed four levels on a page.
 ### Prose Rules
 
 - Article body: `body` token (17px / 1.7) — the `@tailwindcss/typography` plugin's defaults are overridden to match.
-- Measure: **68ch max** (~680px). Non-negotiable — it is the single biggest readability lever on a blog.
+- Measure: **`--measure`, 38rem (≈608px, ~75 characters)**. Non-negotiable — it is the single biggest readability lever on a blog.
+  - Expressed in `rem`, **not `ch`**, deliberately. `1ch` is the advance of the `0` glyph, which in Inter runs ~32% wider than average lowercase — so `68ch` renders ~90 characters, not 68. Specifying a measure in `ch` quietly means something ~30% wider than it reads as.
 - Paragraph spacing: `space-6` (24px). No first-line indents.
 - Links in prose: `accent`, underlined with `underline-offset-2`. Underline is required in body copy; color alone is insufficient.
 - Code blocks: `surface` fill, `border` hairline, `radius-lg`, `space-4` padding, Shiki highlighting (built into Astro — no client-side highlighter).
@@ -166,7 +167,7 @@ content, and it earns that by being the only banded section on the page.
 | Container | Width | Usage |
 |---|---|---|
 | Page shell | `max-w-5xl` (1024px) | All pages. Tighter than a typical 1200px marketing shell — intentional, it reads as considered rather than corporate. |
-| Prose column | `68ch` (~680px) | Article bodies. |
+| Prose column | `var(--measure)` — 38rem (≈608px) | Article bodies. |
 | Gutters | `px-6` (24px) | All breakpoints. |
 
 Grid: 3 columns desktop → 2 tablet → 1 mobile, `gap-4`. Page-level layout uses
@@ -275,7 +276,7 @@ in this system.
 | Secondary button | Border `border-strong`; hover darkens border to `text-disabled`, fill stays transparent. |
 
 Everything else — the type scale, spacing, radii, layout widths, motion rules,
-and the 68ch measure — is theme-independent and carries over unchanged.
+and the article measure — is theme-independent and carries over unchanged.
 
 ### Implementation
 
@@ -447,7 +448,7 @@ makes the system erode:
 1. **A second accent hue.** Cyan plus violet/amber/orange is the fastest way to lose "clean & minimal". Depth comes from surfaces and borders. The single sanctioned exception is [`sponsor`](#sponsor-sanctioned-exception), scoped to GitHub Sponsors CTAs — treat it as closed, not as precedent.
 2. **Raw palette utilities over tokens.** `text-cyan-400` instead of `text-accent` silently forks the system — the next accent change then misses half the site.
 3. **`text-disabled` (`zinc-500`) for real content.** It fails AA at 4.3:1. Muted text is `zinc-400`.
-4. **Prose wider than 68ch.** Full-width article text is the single most damaging readability regression available on a blog.
+4. **Prose wider than `--measure`.** Full-width article text is the single most damaging readability regression available on a blog. Related: never re-express a measure in `ch` — it reads as a character count and is not one.
 5. **Client-side JS for visual effect.** Scroll animation, parallax, and animation libraries all violate the content-first premise on a zero-JS static site — and parallax is an accessibility problem besides.
 6. **App-shell layout.** No sidebars. This is a content site; the shell is nav → main → footer.
 7. **Inverting the dark theme to get the light one.** The accent goes illegible (1.7:1), the no-shadow rule reverses, and `zinc-400` changes role from muted to disabled. Use the [Light Theme](#light-theme-alternative) token table — do not compute it.

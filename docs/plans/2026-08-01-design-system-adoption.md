@@ -242,7 +242,13 @@ Keep the `@import`, `@plugin`, and all four `@font-face` blocks exactly as they 
   --hero-glow: rgb(34 211 238 / 0.08);
 
   --spacing-section: clamp(4rem, 10vw, 7rem);
-  --measure: 68ch;
+
+  /* Article measure. Deliberately NOT in `ch` — `ch` is the advance of the `0`
+     glyph, which in Inter is ~32% wider than average lowercase, so `68ch` reads
+     as ~90 characters rather than 68. 38rem is ~75 characters at the 17px prose
+     size: the top of the comfortable 45-75 range, and wide enough that code
+     samples stay readable on a technical blog. */
+  --measure: 38rem;
 }
 
 @media (prefers-color-scheme: light) {
@@ -893,7 +899,7 @@ git commit -m "feat(design): migrate index pages to tokens, add blog empty-state
 **Step 1: Replace the wrapper `<div>` and its contents** (leave the frontmatter arrays unchanged)
 
 ```astro
-  <div class="mx-auto max-w-[68ch] px-6 py-16">
+  <div class="mx-auto max-w-[var(--measure)] px-6 py-16">
     <h1 class="text-4xl font-bold text-foreground mb-8">About Me</h1>
 
     <div class="mb-12">
@@ -1023,7 +1029,7 @@ Split across two commits. The measure change is visible on every existing post, 
 **Step 1: Replace the `<article>` block** (leave the frontmatter and JSON-LD untouched)
 
 ```astro
-  <article class="mx-auto max-w-[68ch] px-6 py-16">
+  <article class="mx-auto max-w-[var(--measure)] px-6 py-16">
     <header class="mb-10">
       <div class="flex flex-wrap gap-2 mb-4">
         {tags.map(tag => (
@@ -1067,9 +1073,9 @@ prose-invert is no longer needed for the light theme."
 **Step 3: Confirm the measure change visually**
 
 Run `npm run dev` and open any post, e.g. `http://localhost:4321/blog/hello-world`.
-Expected: the text column is noticeably narrower (~680px vs the previous 768px).
+Expected: the text column is noticeably narrower (~608px vs the previous 768px).
 
-This is the one change a returning reader will notice. It is already committed above as part of the wrapper replacement — if it needs reverting, revert only the `max-w-[68ch]` value back to `max-w-3xl` and update MASTER.md's measure spec to match, so the doc and code stay in agreement.
+This is the one change a returning reader will notice. It is already committed above as part of the wrapper replacement — if it needs reverting, revert only the `max-w-[var(--measure)]` value back to `max-w-3xl` and update MASTER.md's measure spec to match, so the doc and code stay in agreement.
 
 ---
 

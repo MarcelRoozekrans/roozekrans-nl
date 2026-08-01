@@ -93,7 +93,13 @@
   --hero-glow: rgb(34 211 238 / 0.08);
 
   --spacing-section: clamp(4rem, 10vw, 7rem);
-  --measure: 68ch;
+
+  /* Article measure. Deliberately NOT in `ch` — `ch` is the advance of the `0`
+     glyph, which in Inter is ~32% wider than average lowercase, so `68ch` reads
+     as ~90 characters rather than 68. 38rem is ~75 characters at the 17px prose
+     size: the top of the comfortable 45-75 range, and wide enough that code
+     samples stay readable on a technical blog. */
+  --measure: 38rem;
 }
 
 @media (prefers-color-scheme: light) {
