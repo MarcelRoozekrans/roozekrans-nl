@@ -16,10 +16,10 @@ const certifications = [
 ---
 
 <BaseLayout title="About" description="About Marcel Roozekrans — software engineer, open source developer, and dive instructor based in the Netherlands.">
-  <div class="mx-auto max-w-[var(--measure)] px-6 py-16">
+  <div class="mx-auto max-w-5xl px-6 py-16">
     <h1 class="text-4xl font-bold text-foreground mb-8">About Me</h1>
 
-    <div class="mb-12">
+    <div class="mb-12 max-w-[var(--measure-text)]">
       <p class="text-body text-lg leading-relaxed mb-4">
         Hi! I'm Marcel — a software engineer based in Heemstede, the Netherlands. I run
         <strong class="text-foreground">Roozekrans IT-Solutions</strong> and have extensive experience in
@@ -55,7 +55,7 @@ const certifications = [
     <ul class="space-y-2 mb-12">
       {certifications.map(cert => (
         <li class="text-body text-sm flex items-center gap-2">
-          <span class="text-accent" aria-hidden="true">&#9670;</span> {cert}
+          <span class="text-border-strong" aria-hidden="true">&#9670;</span> {cert}
         </li>
       ))}
     </ul>
@@ -68,7 +68,7 @@ const certifications = [
         .NET version upgrades across every project, and more MCP servers and AI tooling for .NET developers.
       </p>
       <a href="https://github.com/sponsors/MarcelRoozekrans" target="_blank" rel="noopener"
-         class="inline-flex items-center gap-2 bg-sponsor-subtle border border-sponsor-border text-sponsor px-4 py-2 rounded-lg hover:border-sponsor hover:text-sponsor-hover transition-colors text-sm font-medium">
+         class="inline-flex items-center gap-2 min-h-11 bg-sponsor-subtle border border-sponsor-border text-sponsor px-4 py-2 rounded-lg hover:border-sponsor hover:text-sponsor-hover transition-colors text-sm font-medium">
         <span aria-hidden="true">&#10084;</span> Become a sponsor
       </a>
     </div>
@@ -82,7 +82,7 @@ const certifications = [
         { href: 'https://keybase.io/marcelroozekrans', label: 'Keybase' },
       ].map(({ href, label }) => (
         <a href={href} target="_blank" rel="noopener"
-           class="flex items-center gap-2 border border-border-strong text-body px-4 py-2 rounded-lg hover:border-accent hover:text-accent transition-colors text-sm">
+           class="flex items-center gap-2 min-h-11 border border-border-strong text-body px-4 py-2 rounded-lg hover:border-accent hover:text-accent transition-colors text-sm">
           {label}
         </a>
       ))}

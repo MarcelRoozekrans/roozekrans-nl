@@ -12,18 +12,24 @@ const projects = (await getCollection('projects'))
     <h1 class="text-4xl font-bold text-foreground mb-4">Projects</h1>
     <p class="text-muted mb-12">Open source libraries and tools I've built for the .NET ecosystem and beyond.</p>
 
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-      {projects.map(project => (
-        <ProjectCard
-          title={project.data.title}
-          description={project.data.description}
-          tags={project.data.tags}
-          github={project.data.github}
-          nuget={project.data.nuget}
-          marketplace={project.data.marketplace}
-          docs={project.data.docs}
-        />
-      ))}
-    </div>
+    {projects.length === 0 ? (
+      <div class="rounded-xl border border-border bg-surface p-8 text-center">
+        <p class="text-muted">No projects listed yet — check back soon.</p>
+      </div>
+    ) : (
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        {projects.map(project => (
+          <ProjectCard
+            title={project.data.title}
+            description={project.data.description}
+            tags={project.data.tags}
+            github={project.data.github}
+            nuget={project.data.nuget}
+            marketplace={project.data.marketplace}
+            docs={project.data.docs}
+          />
+        ))}
+      </div>
+    )}
   </div>
 </BaseLayout>

@@ -59,15 +59,30 @@
 
   --canvas: #09090b;
   --surface: #18181b;
-  --surface-subtle: #0d0d10;
+  /* Dark banding is a real step, not a hint: at #0d0d10 the stats band sat
+     1.025:1 off the canvas (4/255), so the hairlines did all the delimiting
+     and the band read as an ordinary section. The hero glow was a larger
+     step off the canvas than the one section meant to be banded. */
+  --surface-subtle: #141418;
   /* Chips sit one step *up* from the card in dark and one step *down* in
      light, so they read as raised labels rather than holes punched in the
      card. That inversion is why they cannot share the subtle-surface token,
-     which recedes in both themes. */
+     which recedes in both themes.
+
+     Load-bearing pairing: accent text on chip measures 4.87:1 in light, only
+     8% above the AA floor, and it is the most-repeated pairing on the site
+     (every tag on every card). Darkening this token or lightening the light
+     brand value breaks that silently — re-measure both if either moves. */
   --chip: #27272a;
   --code-bg: var(--surface);
   --line: #27272a;
-  --line-strong: #3f3f46;
+  /* Shared across both themes, deliberately: on the secondary controls (the
+     hero's second CTA, the About link row) this border is the *only*
+     affordance — transparent fill, non-accent label, no underline — so it is
+     a UI component boundary under WCAG 1.4.11 and must clear 3:1 against
+     both canvases. The old per-theme values measured 1.91:1 dark and 1.42:1
+     light; this one measures 4.12:1 dark and 4.63:1 light. */
+  --line-strong: #71717a;
 
   --fg: #ffffff;
   --fg-body: #d4d4d8;
@@ -100,19 +115,25 @@
 
   --spacing-section: clamp(4rem, 10vw, 7rem);
 
-  /* Article measure — the max-width of the *padded article wrapper*, not of the
-     text itself. Preflight sets box-sizing: border-box, so the wrapper's px-6
-     gutters (3rem total) come out of this figure: 41rem - 3rem = 38rem ≈ 608px
-     of actual text, ≈75 characters at the 17px prose size. That is the top of
+  /* Article measure. Two forms, because the two consumers differ in whether
+     they carry their own gutters, and applying the wrong one is a silent
+     184px layout bug rather than a visible break.
+
+     ~608px of actual text, ≈75 characters at the 17px prose size — the top of
      the comfortable 45-75 range, and wide enough that code samples stay
      readable on a technical blog.
 
      Deliberately NOT in `ch`. `ch` is the advance of the `0` glyph, which in
      Inter runs ~32% wider than average lowercase — so `68ch` renders ~90
      characters, not 68. A measure in `ch` reads as a character count and is
-     not one. Apply this to a wrapper carrying px-6; on an unpadded element it
-     runs ~6 characters wide. */
-  --measure: 41rem;
+     not one. */
+
+  /* Text measure: ~608px, ~75 characters at the 17px prose size. Use this on an
+     element that is already inside a padded container. */
+  --measure-text: 38rem;
+  /* Same measure for an element that carries its own px-6 gutters — box-sizing
+     is border-box, so the 3rem of padding has to be added back. */
+  --measure: calc(var(--measure-text) + 3rem);
 }
 
 @media (prefers-color-scheme: light) {
@@ -126,7 +147,7 @@
     /* Code lifts above the page in dark mode and recedes in light mode. */
     --code-bg: var(--surface-subtle);
     --line: #e4e4e7;
-    --line-strong: #d4d4d8;
+    /* No --line-strong override: one value serves both themes. See :root. */
 
     --fg: #18181b;
     --fg-body: #27272a;
