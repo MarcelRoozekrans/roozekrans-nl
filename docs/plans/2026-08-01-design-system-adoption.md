@@ -361,7 +361,12 @@ Keep the `@import`, `@plugin`, and all four `@font-face` blocks exactly as they 
 
 /* ---------------------------------------------------------------------------
    Article prose. Driven entirely from tokens, which is what lets one rule set
-   serve both themes — `prose-invert` is deleted, not made conditional.
+   serve both themes — the inverted-prose modifier is deleted outright, rather
+   than made theme-conditional.
+
+   Note: the token guard scans comments too (deliberately — see the header of
+   scripts/check-tokens.mjs), so avoid writing retired utility names literally
+   in comments here.
    --------------------------------------------------------------------------- */
 @layer components {
   .prose {
@@ -444,10 +449,11 @@ Expected: still FAILS, but `styles/global.css` no longer appears in the listing 
 is 3 lower (it currently contributes the `--color-accent-dark` declaration plus `bg-zinc-950`
 and `text-white` in the `@apply`).
 
-The guard strips comment content before matching, so the `prose-invert` mentioned in this
-file's comments is not a violation. Do not reword those comments to appease it, and do not
-weaken the rule — if `global.css` still appears in the listing after this task, the comment
-stripper is broken and that is the bug to fix.
+The guard deliberately scans comments as well as code — an earlier attempt at comment
+stripping was removed because a hand-rolled stripper could silently blank a whole file and
+turn the gate into a no-op with a passing build. A false positive on a comment is noisy and
+self-announcing; a stripper that fails silently is not. So: keep retired utility names out
+of comments, and never weaken a rule to make this pass.
 
 **Step 5: Commit**
 
