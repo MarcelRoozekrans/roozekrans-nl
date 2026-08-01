@@ -256,6 +256,11 @@
       transition-duration: 0.01ms !important;
       transition-delay: 0.01ms !important;
       scroll-behavior: auto !important;
+      /* Kills translate-based motion outright, deliberately. Collapsing the
+         duration alone does not remove the movement — it converts a 4px ease
+         into a 4px snap, which is worse for a motion-sensitive reader than
+         the unguarded original. The card lift is the only consumer today. */
+      translate: none !important;
     }
   }
 }
