@@ -106,7 +106,8 @@ This is the only finding in this review that no earlier review caught, and it is
 defect rather than a token defect — which is why eight rounds of code review missed it and
 looking at a rendered page did not.
 
-**Fix applied** in `a8f1e0c`: `max-w-[var(--measure-text)]` added to the sponsor card's `<p>`.
+**Fix applied** in `dfccdc5`, the same commit as this report: `max-w-[var(--measure-text)]`
+added to the sponsor card's `<p>`.
 The screenshots above predate the fix and still show the wide measure — kept as the evidence
 the finding was based on.
 
