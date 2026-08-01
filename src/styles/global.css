@@ -1,4 +1,13 @@
 @import "tailwindcss";
+
+/* Source detection is restricted to what actually ships. Tailwind's automatic
+   detection walks the whole repository, which means prose in docs/ and — worse
+   — the literal palette class names in the token guard's replacement-hint table
+   were generating real utilities into this stylesheet. The gate was shipping
+   the classes it exists to forbid. */
+@source not "../../docs";
+@source not "../../scripts";
+
 @plugin "@tailwindcss/typography";
 
 /* Self-hosted variable fonts — no third-party request, no render-blocking @import.

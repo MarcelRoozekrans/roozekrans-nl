@@ -18,7 +18,10 @@ import { fileURLToPath } from 'node:url';
 
 // fileURLToPath (not URL.pathname) — pathname yields "/C:/..." on Windows.
 const SRC = fileURLToPath(new URL('../src/', import.meta.url));
-const SCANNED = /\.(astro|css)$/;
+// Must stay a superset of what Tailwind's source detection reads, or the gate
+// has a hole: a raw palette utility in a markdown post or a TS content config
+// still renders and still generates CSS, but nothing here would look at it.
+const SCANNED = /\.(astro|css|md|mdx|ts)$/;
 
 // Every Tailwind palette. Spelled out rather than [a-z]+-\d{2,3} on purpose:
 // the generic form would flag legitimate future tokens on a numeric scale.
@@ -89,11 +92,12 @@ const RULES = [
     // Arbitrary-value syntax is idiomatic here (shadow-[var(--shadow-card)]),
     // so a raw hex smuggled into one reads as normal code. Anchored to a
     // utility prefix so the report names it, and so a plain JS array
-    // ['#22d3ee'] is not miscalled an arbitrary value. .astro only —
-    // global.css legitimately declares hex in :root.
+    // ['#22d3ee'] is not miscalled an arbitrary value. Unscoped, so it covers
+    // stylesheets too: the required utility prefix before the bracket means a
+    // bare custom-property declaration cannot match it, so the legitimate hex
+    // in the :root blocks of global.css stays invisible to this rule.
     re: new RegExp(`[\\w-]+-\\[[^\\]\\s]*${HEX}[^\\]]*\\]`, 'g'),
     msg: 'hex literal in an arbitrary value — reference a token var instead',
-    files: /\.astro$/,
   },
   {
     re: new RegExp(`style\\s*=\\s*(?:"[^"]*|'[^']*|\\{[^}]*)${HEX}`, 'g'),
