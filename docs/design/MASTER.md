@@ -129,8 +129,9 @@ Headings scale by ratio ~1.2 and never exceed four levels on a page.
 ### Prose Rules
 
 - Article body: `body` token (17px / 1.7) — the `@tailwindcss/typography` plugin's defaults are overridden to match.
-- Measure: **`--measure`, 38rem (≈608px, ~75 characters)**. Non-negotiable — it is the single biggest readability lever on a blog.
+- Measure: **`--measure`, 41rem** — applied to the *padded article wrapper*. Preflight sets `box-sizing: border-box`, so the wrapper's `px-6` gutters come out of it: 41rem − 3rem = **≈608px of text, ~75 characters**. Non-negotiable — it is the single biggest readability lever on a blog.
   - Expressed in `rem`, **not `ch`**, deliberately. `1ch` is the advance of the `0` glyph, which in Inter runs ~32% wider than average lowercase — so `68ch` renders ~90 characters, not 68. Specifying a measure in `ch` quietly means something ~30% wider than it reads as.
+  - `.prose` itself sets `max-width: none`. Exactly one element decides the measure and it is the wrapper — the typography plugin otherwise imposes its own `65ch` (~86 characters).
 - Paragraph spacing: `space-6` (24px). No first-line indents.
 - Links in prose: `accent`, underlined with `underline-offset-2`. Underline is required in body copy; color alone is insufficient.
 - Code blocks: `surface` fill, `border` hairline, `radius-lg`, `space-4` padding, Shiki highlighting (built into Astro — no client-side highlighter).
@@ -167,7 +168,7 @@ content, and it earns that by being the only banded section on the page.
 | Container | Width | Usage |
 |---|---|---|
 | Page shell | `max-w-5xl` (1024px) | All pages. Tighter than a typical 1200px marketing shell — intentional, it reads as considered rather than corporate. |
-| Prose column | `var(--measure)` — 38rem (≈608px) | Article bodies. |
+| Prose column | `var(--measure)` — 41rem incl. gutters (≈608px of text) | Article bodies. |
 | Gutters | `px-6` (24px) | All breakpoints. |
 
 Grid: 3 columns desktop → 2 tablet → 1 mobile, `gap-4`. Page-level layout uses

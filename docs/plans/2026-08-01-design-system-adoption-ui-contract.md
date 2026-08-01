@@ -203,7 +203,7 @@ The largest visual change in the phase.
 | Change | From | To | Reason |
 |---|---|---|---|
 | Heading colour | `prose-headings:text-cyan-400` | `text-primary` | **Core thesis violation** — cyan headings destroy the "accent = interactive" signal |
-| Measure | `max-w-3xl` (768px, ~94 chars) | `var(--measure)` — 38rem ≈ 608px, ~75 chars | Readability spec |
+| Measure | `max-w-3xl` (768px, ~94 chars) | `var(--measure)` — 41rem incl. gutters ≈ 608px of text, ~75 chars | Readability spec |
 | Body size | typography default (16px) | `body` — 17px / 1.7 | Reading-optimised |
 | Date | `text-zinc-500` | `text-muted` | **Fails AA** |
 | Prose links | `no-underline`, underline on hover | **always underlined**, `underline-offset-2` | Colour alone is insufficient in body copy |
@@ -323,8 +323,8 @@ All resolved 2026-08-01. No blockers remain — implementation may proceed.
    exception — it is not precedent for further hues. Light value `#BE185D` (5.8:1); the
    existing `pink-400` stays as the dark value (7.5:1).
 
-2. **Blog article measure** — ✅ **Resolved: narrow to `--measure` (38rem ≈ 608px, ~75
-   characters).** Accepted as a visible change to every existing post. This is the one change
+2. **Blog article measure** — ✅ **Resolved: narrow to `--measure` (41rem on the padded
+   wrapper ≈ 608px of text, ~75 characters).** Accepted as a visible change to every existing post. This is the one change
    in the phase a returning reader will notice, so it should land in its own commit for easy
    revert.
 
