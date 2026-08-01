@@ -252,7 +252,7 @@ Shell `max-w-5xl` (1024px), gutters `px-6`. Article pages: single centred `var(-
 ### Tablet (768–1279px)
 
 - Nav stays horizontal — 4 items fit; **no hamburger** at any breakpoint.
-- Projects grid 3 → 2 columns; blog grid stays 2; stats 4 → 2 columns.
+- Projects grid 3 → 2 columns; blog grid stays 2. **Stats stay at 4 columns** — see Accepted Deviation 4; the originally specified 2-column tablet band produced four 156px columns at exactly 768px, wrapping one label while its siblings stayed on one line.
 - Section padding follows `clamp()` — no discrete breakpoint needed.
 
 ### Mobile (<768px)
