@@ -334,3 +334,24 @@
 .prose :where(pre) {
   border: 1px solid var(--line);
 }
+
+/* Shiki emits --shiki-light / --shiki-dark per token and applies neither, so the
+   choice is made here. Dark is the fallback and light is the query, matching the
+   theme structure above. The background deliberately ignores Shiki's own theme
+   background in favour of --code-bg, so code sits on the design system's
+   surfaces rather than on the syntax theme's. */
+.astro-code,
+.astro-code span {
+  color: var(--shiki-dark);
+}
+
+.astro-code {
+  background-color: var(--code-bg);
+}
+
+@media (prefers-color-scheme: light) {
+  .astro-code,
+  .astro-code span {
+    color: var(--shiki-light);
+  }
+}
