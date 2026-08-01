@@ -55,6 +55,19 @@ UIs go muddy on `#09090B` and are not part of this system.
 Semantic colors must always pair with a text label or icon. Color alone never
 conveys state.
 
+### Sponsor (sanctioned exception)
+
+| Token | Hex | Usage | Contrast |
+|---|---|---|---|
+| `sponsor` | `#F472B6` | GitHub Sponsors CTA text and border. `pink-400`. | 7.5:1 on `background` |
+| `sponsor-subtle` | `rgba(236,72,153,0.10)` | Sponsor CTA fill. | — |
+
+The one hue besides the accent. It is **not** a second brand color: it is a
+borrowed affordance for an external service, scoped to sponsor CTAs and nowhere
+else. Adding a third hue, or reusing `sponsor` for anything that is not a
+GitHub Sponsors link, breaks the system. Light-mode value is `#BE185D`
+(`pink-700`, 5.8:1) — `pink-400` fails on an off-white canvas.
+
 ### Neutrals
 
 | Token | Hex | Tailwind | Usage |
@@ -340,7 +353,8 @@ Never more than two CTAs at the same visual level in one section.
 - `surface` fill, `border` hairline, `radius-xl`, `space-6` padding
 - Title `h4` in `text-primary`; description `body-sm` in `text-muted`, clamped to 3 lines
 - Hover: `-translate-y-1` + border → `accent-border`, `duration-200`. Transform and color only — never animate `box-shadow` or layout properties.
-- **The whole card is the link target.** Use a stretched-link overlay so the click area matches the visual affordance; secondary links inside the card sit above it via `relative z-10`.
+- **Whole-card linking applies only when the card has one canonical destination.** BlogCard does (the post), so it is a single `<a>` wrapping the content. ProjectCard does *not* — it carries 2–4 co-equal external destinations (GitHub, NuGet, Marketplace, Docs) and no primary one, so it stays a non-link `<article>` with discrete link targets. Do not force a whole-card link where there is no single obvious target; that produces an unpredictable click.
+- Cards that are not links still get the hover lift, driven by `group-hover`. The lift signals "interactive content within", not "click anywhere".
 
 ### Tag / Badge
 
@@ -419,14 +433,18 @@ fixing on the next UI pass — none of it is user-visible today, but it is what
 makes the system erode:
 
 1. `text-cyan-400` and `text-accent` are both in use for the same role ([index.astro](../../src/pages/index.astro), [ProjectCard.astro](../../src/components/ProjectCard.astro)). Standardize on `text-accent`.
-2. `--color-accent-dark` is declared in `@theme` but never referenced — either adopt it as `accent-solid` or drop it.
+2. `--color-accent-dark` is referenced exactly once, as the nav wordmark hover ([Nav.astro:14](../../src/components/Nav.astro#L14)) — and in the wrong direction: it darkens the accent on hover, *lowering* contrast against the near-black canvas. Replace with `accent-hover` (lighter) and retire the token.
 3. Hero CTA uses `bg-cyan-400` / `hover:bg-cyan-300`; the spec above is `accent-solid` (`#06B6D4`) with a lighter hover.
 4. Card hover uses `hover:border-cyan-400/40` directly rather than an `accent-border` token.
 5. No `prefers-reduced-motion` guard exists yet for the card `-translate-y-1` hover.
+6. **Sponsor pink is used as a raw utility.** `pink-400`/`pink-500` in [Footer.astro:14](../../src/components/Footer.astro#L14) and [about.astro:71](../../src/pages/about.astro#L71). Resolved 2026-08-01: the hue is sanctioned as the scoped [`sponsor`](#sponsor-sanctioned-exception) token, but must route through it — the raw `pink-400` fails contrast on the light canvas.
+7. **Article headings are accent-colored** (`prose-headings:text-cyan-400` in [BlogPostLayout.astro:57](../../src/layouts/BlogPostLayout.astro#L57)). This breaks the core thesis — if headings are cyan, cyan stops meaning "interactive". Headings should be `text-primary`.
+8. **`zinc-500` is carrying real content**: post dates ([BlogCard.astro:20](../../src/components/BlogCard.astro#L20), [BlogPostLayout.astro:53](../../src/layouts/BlogPostLayout.astro#L53)) and the blog empty state. At 4.3:1 this fails WCAG AA — an accessibility defect, not just drift.
+9. **No `:focus-visible` styling exists anywhere.** The spec'd focus ring is currently unimplemented across the entire site.
 
 ## Anti-Patterns
 
-1. **A second accent hue.** Cyan plus violet/amber/orange is the fastest way to lose "clean & minimal". Depth comes from surfaces and borders.
+1. **A second accent hue.** Cyan plus violet/amber/orange is the fastest way to lose "clean & minimal". Depth comes from surfaces and borders. The single sanctioned exception is [`sponsor`](#sponsor-sanctioned-exception), scoped to GitHub Sponsors CTAs — treat it as closed, not as precedent.
 2. **Raw palette utilities over tokens.** `text-cyan-400` instead of `text-accent` silently forks the system — the next accent change then misses half the site.
 3. **`text-disabled` (`zinc-500`) for real content.** It fails AA at 4.3:1. Muted text is `zinc-400`.
 4. **Prose wider than 68ch.** Full-width article text is the single most damaging readability regression available on a blog.
