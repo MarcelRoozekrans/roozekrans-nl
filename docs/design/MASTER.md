@@ -4,6 +4,7 @@
 **Tech stack:** Astro 7 + Tailwind CSS v4 (`@tailwindcss/vite`, CSS-first config)
 **Brand feel:** Clean & minimal
 **Primary audience:** Developers and technical readers
+**Themes:** Dark (canonical) · Light (alternative — see [Light Theme](#light-theme-alternative))
 **Generated:** 2026-08-01
 
 ## Design Thesis
@@ -73,6 +74,10 @@ conveys state.
 No shadows. On a near-black canvas, shadows are invisible and cost paint time.
 Elevation is expressed as: `background` → `surface` fill → `border` hairline →
 `accent-border` on hover. That is the entire ladder.
+
+This rule is theme-specific and **inverts in light mode**, where borders alone
+read flat and a shadow ladder does the work instead. See
+[Light Theme → Elevation](#elevation-inverts).
 
 ## Typography
 
@@ -167,7 +172,153 @@ CSS Grid; component-level uses Flexbox.
 Cards are one step rounder than buttons — this is deliberate and is the existing
 convention on the site. Keep it consistent.
 
+## Light Theme (Alternative)
+
+Dark remains canonical — it is the site's identity and what a developer audience
+defaults to. Light is a **complete parallel token set**, not a fallback: it exists
+so the site respects `prefers-color-scheme` for readers who genuinely read light
+UIs better (bright ambient light, and astigmatism, for which light-on-dark text
+measurably degrades legibility).
+
+**It is not an inversion.** Two rules from the dark theme actively break when
+flipped, and getting these wrong is what makes a bolted-on light mode look cheap:
+
+1. The accent cannot survive it. `#22D3EE` on `#FAFAFA` is ~1.7:1 — illegible. Light mode needs a genuinely darker accent, not a tint adjustment.
+2. The no-shadow rule reverses. See [Elevation](#elevation-inverts) below.
+
+### Neutrals
+
+| Token | Hex | Tailwind | Usage | Contrast on canvas |
+|---|---|---|---|---|
+| `background` | `#FAFAFA` | `zinc-50` | Page canvas. Off-white, not pure white — reduces glare on large fills. | — |
+| `surface` | `#FFFFFF` | `white` | Cards, panels, code blocks. Lifts *toward* light, mirroring the dark theme's logic. | — |
+| `surface-subtle` | `#F4F4F5` | `zinc-100` | Banded sections (stats row). | — |
+| `border` | `#E4E4E7` | `zinc-200` | Hairlines, dividers. | — |
+| `border-strong` | `#D4D4D8` | `zinc-300` | Secondary button outline, inputs. | — |
+| `text-primary` | `#18181B` | `zinc-900` | Headings, card titles. Not pure black — pure black on off-white is harsh. | 16.8:1 |
+| `text-body` | `#27272A` | `zinc-800` | Long-form prose. | 14.3:1 |
+| `text-muted` | `#52525B` | `zinc-600` | Descriptions, metadata, dates. | 7.3:1 |
+| `text-disabled` | `#A1A1AA` | `zinc-400` | **Decorative and disabled only** — 2.5:1, far below AA. | 2.5:1 |
+
+Note that `zinc-400` is *muted* text in dark mode and *disabled* in light mode.
+The neutral ramp is not symmetric, which is precisely why the two themes need
+separate token tables rather than a computed inversion.
+
+### Primary
+
+| Token | Hex | Usage | Contrast |
+|---|---|---|---|
+| `accent` | `#0E7490` | Links, eyebrow text, stat figures, focus rings. cyan-700. | 5.2:1 — AA |
+| `accent-hover` | `#155E75` | Hover for accent **text** — moves *darker* here, the reverse of dark mode. | 7.0:1 — AAA |
+| `accent-solid` | `#0E7490` | Filled surfaces (primary button). | — |
+| `accent-solid-hover` | `#155E75` | Hover for filled surfaces. | — |
+| `accent-foreground` | `#FFFFFF` | Text on `accent-solid`. | 5.4:1 — AA |
+| `accent-subtle` | `rgba(14,116,144,0.06)` | Hover washes. Decorative only. | — |
+| `accent-border` | `rgba(14,116,144,0.35)` | Card hover borders, active tab underline. | — |
+
+`cyan-600` (`#0891B2`) is deliberately excluded: at 3.7:1 it fails AA for body
+text and for white-on-fill. It is only usable for large display text, and
+allowing it as a token invites misuse.
+
+### Semantic
+
+The 700-weight family. All clear AA on `background`.
+
+| Token | Hex | Contrast |
+|---|---|---|
+| `success` | `#15803D` | 4.8:1 |
+| `warning` | `#B45309` | 4.8:1 |
+| `error` | `#B91C1C` | 6.2:1 |
+| `info` | `#1D4ED8` | 6.4:1 |
+
+### Elevation (inverts)
+
+Where dark mode forbids shadows, light mode **requires** them — a white card on
+an off-white canvas separated only by a `zinc-200` hairline reads as flat paper.
+The ladder here is shadow-led, borders secondary:
+
+```css
+--shadow-card:       0 1px 2px  rgba(9, 9, 11, 0.04),
+                     0 1px 3px  rgba(9, 9, 11, 0.06);
+--shadow-card-hover: 0 4px 6px  rgba(9, 9, 11, 0.05),
+                     0 10px 15px rgba(9, 9, 11, 0.08);
+--shadow-sticky:     0 1px 3px  rgba(9, 9, 11, 0.08);  /* nav, once scrolled */
+```
+
+Shadows are tinted with the canvas neutral (`zinc-950`), never pure black —
+black shadows on a neutral canvas grey out muddy. Keep them low-opacity and
+tight; heavy drop shadows contradict "clean & minimal" faster than anything else
+in this system.
+
+### What changes in components
+
+| Component | Light-mode delta |
+|---|---|
+| Card | Gains `--shadow-card`; hover swaps to `--shadow-card-hover` **in addition to** `-translate-y-1`. Border drops to a secondary role. |
+| Hero | The `accent-subtle` radial glow is removed entirely — a glow on white is dirt, not light. Use plain `background` with the section hairline instead. |
+| Tag / Badge | `surface-subtle` fill (a step *down* from the white card, inverting the dark-mode relationship) with `accent` text. |
+| Nav | Transparent at rest; gains `--shadow-sticky` once scrolled rather than relying on the hairline alone. |
+| Code block | `surface-subtle` fill, not `surface` — code should recede from body copy here, whereas in dark mode it lifts. Shiki needs a paired light theme configured. |
+| Secondary button | Border `border-strong`; hover darkens border to `text-disabled`, fill stays transparent. |
+
+Everything else — the type scale, spacing, radii, layout widths, motion rules,
+and the 68ch measure — is theme-independent and carries over unchanged.
+
+### Implementation
+
+Tailwind v4 resolves `@theme` values at build time, so a media query cannot
+override them directly. Use `@theme inline` to make the generated utilities
+reference a runtime custom property, then override that property per theme:
+
+```css
+@theme inline {
+  --color-background: var(--canvas);
+  --color-surface:    var(--surface);
+  --color-accent:     var(--accent);
+  /* …one line per semantic token */
+}
+
+/* Dark is the default — it applies with no media query and no JS. */
+:root {
+  --canvas:  #09090b;
+  --surface: #18181b;
+  --accent:  #22d3ee;
+}
+
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme='dark']) {
+    --canvas:  #fafafa;
+    --surface: #ffffff;
+    --accent:  #0e7490;
+  }
+}
+
+/* Explicit opt-in, only needed if a manual toggle is added. */
+:root[data-theme='light'] { /* light values */ }
+:root[data-theme='dark']  { /* dark values  */ }
+```
+
+Verify `@theme inline` against the installed Tailwind version before relying on
+it — it is v4-specific and the directive set is still moving.
+
+Also set `<meta name="color-scheme" content="dark light">` in
+[BaseLayout.astro](../../src/layouts/BaseLayout.astro) so form controls,
+scrollbars, and the browser's own chrome follow the theme.
+
+### On adding a manual toggle
+
+The `prefers-color-scheme` version above costs **zero JavaScript** and is the
+recommended scope. A manual toggle is a different proposition: to avoid a
+flash of the wrong theme on first paint, it needs a render-blocking inline
+script in `<head>` that reads `localStorage` before the body renders. On a site
+that currently ships no client-side JS at all, that is a real architectural
+concession — worth making only if you actually want readers overriding their
+system preference. Recommendation: ship the media-query version, skip the toggle.
+
 ## Component Patterns
+
+> Specs below describe the **dark** theme. Light-mode deltas are tabulated in
+> [Light Theme → What changes in components](#what-changes-in-components).
 
 ### Primary Button / CTA
 
@@ -281,3 +432,5 @@ makes the system erode:
 4. **Prose wider than 68ch.** Full-width article text is the single most damaging readability regression available on a blog.
 5. **Client-side JS for visual effect.** Scroll animation, parallax, and animation libraries all violate the content-first premise on a zero-JS static site — and parallax is an accessibility problem besides.
 6. **App-shell layout.** No sidebars. This is a content site; the shell is nav → main → footer.
+7. **Inverting the dark theme to get the light one.** The accent goes illegible (1.7:1), the no-shadow rule reverses, and `zinc-400` changes role from muted to disabled. Use the [Light Theme](#light-theme-alternative) token table — do not compute it.
+8. **Hard-coding a theme's hex where a runtime token belongs.** Anything themed must go through the `@theme inline` var indirection, or it will be stuck in dark mode forever.
