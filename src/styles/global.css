@@ -345,6 +345,14 @@
   border: 1px solid var(--line);
 }
 
+/* A wide table scrolls inside its own box rather than widening the page.
+   display: block is what makes overflow-x apply to a table element at all. */
+.prose :where(table) {
+  display: block;
+  max-width: 100%;
+  overflow-x: auto;
+}
+
 /* Shiki emits --shiki-light / --shiki-dark per token and applies neither, so the
    choice is made here. Dark is the fallback and light is the query, matching the
    theme structure above. The background deliberately ignores Shiki's own theme
