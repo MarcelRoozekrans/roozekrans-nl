@@ -16,81 +16,76 @@ const certifications = [
 ---
 
 <BaseLayout title="About" description="About Marcel Roozekrans — software engineer, open source developer, and dive instructor based in the Netherlands.">
-  <div class="mx-auto max-w-3xl px-6 py-16">
-    <h1 class="text-4xl font-bold text-white mb-8">About Me</h1>
+  <div class="mx-auto max-w-5xl px-6 py-16">
+    <h1 class="text-4xl font-bold text-foreground mb-8">About Me</h1>
 
-    <div class="mb-12">
-      <p class="text-zinc-300 text-lg leading-relaxed mb-4">
-        Hi! I'm Marcel — a software engineer based in Heemstede, the Netherlands. I run
-        <strong class="text-white">Roozekrans IT-Solutions</strong> and have extensive experience in
+    <div class="mb-12 max-w-[var(--measure-text)]">
+      <p class="text-body text-lg leading-relaxed mb-4">
+        Hi! I'm Marcel — a software engineer based in Heemstede, the Netherlands.
+        I run <strong class="text-foreground">Roozekrans IT-Solutions</strong> and have extensive experience in
         website and software development, with a deep focus on the .NET ecosystem.
       </p>
-      <p class="text-zinc-300 text-lg leading-relaxed mb-4">
+      <p class="text-body text-lg leading-relaxed mb-4">
         I enjoy building open source libraries that make other developers' lives easier, with a particular
         interest in performance, source generators, and developer tooling. I studied Information Engineering
         at the Hogeschool van Amsterdam.
       </p>
-      <p class="text-zinc-300 text-lg leading-relaxed">
+      <p class="text-body text-lg leading-relaxed">
         When I'm not writing code, you'll probably find me underwater — I'm a certified dive instructor (KSS3)
         and active member of Onderwatersport Vereniging Haarlem. I believe in writing software that
         is simple, fast, and well-tested.
       </p>
     </div>
 
-    <h2 class="text-2xl font-bold text-white mb-6">Skills & Tech</h2>
+    <h2 class="text-2xl font-bold text-foreground mb-6">Skills &amp; Tech</h2>
     <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12">
       {skills.map(({ category, items }) => (
         <div>
-          <h3 class="font-mono text-cyan-400 text-xs uppercase tracking-widest mb-3">{category}</h3>
+          <h3 class="font-mono text-accent text-xs uppercase tracking-widest mb-3">{category}</h3>
           <ul class="space-y-1">
             {items.map(item => (
-              <li class="text-zinc-300 text-sm">{item}</li>
+              <li class="text-body text-sm">{item}</li>
             ))}
           </ul>
         </div>
       ))}
     </div>
 
-    <h2 class="text-2xl font-bold text-white mb-6">Certifications</h2>
+    <h2 class="text-2xl font-bold text-foreground mb-6">Certifications</h2>
     <ul class="space-y-2 mb-12">
       {certifications.map(cert => (
-        <li class="text-zinc-300 text-sm flex items-center gap-2">
-          <span class="text-cyan-400">&#9670;</span> {cert}
+        <li class="text-body text-sm flex items-center gap-2">
+          <span class="text-muted" aria-hidden="true">&#9670;</span> {cert}
         </li>
       ))}
     </ul>
 
-    <h2 class="text-2xl font-bold text-white mb-6">Sponsor My Work</h2>
-    <div class="rounded-xl border border-zinc-800 bg-zinc-900 p-6 mb-12">
-      <p class="text-zinc-300 text-sm leading-relaxed mb-4">
+    <h2 class="text-2xl font-bold text-foreground mb-6">Sponsor My Work</h2>
+    <div class="rounded-xl border border-border bg-surface p-6 mb-12 shadow-[var(--shadow-card)]">
+      <p class="text-body text-sm leading-relaxed mb-4 max-w-[var(--measure-text)]">
         Everything I build is open source and free to use. Sponsorship is what lets me spend time on
         it instead of client work — it funds continued maintenance of the ZeroAlloc.NET packages,
         .NET version upgrades across every project, and more MCP servers and AI tooling for .NET developers.
       </p>
       <a href="https://github.com/sponsors/MarcelRoozekrans" target="_blank" rel="noopener"
-         class="inline-flex items-center gap-2 bg-pink-500/10 border border-pink-500/40 text-pink-400 px-4 py-2 rounded-lg hover:bg-pink-500/20 hover:border-pink-400 transition-colors text-sm font-medium">
-        &#10084; Become a sponsor
+         class="inline-flex items-center gap-2 min-h-11 bg-sponsor-subtle border border-sponsor-border text-sponsor px-4 py-2 rounded-lg hover:border-sponsor hover:text-sponsor-hover transition-colors text-sm font-medium">
+        <span aria-hidden="true">&#10084;</span> Become a sponsor
       </a>
     </div>
 
-    <h2 class="text-2xl font-bold text-white mb-6">Find Me</h2>
+    <h2 class="text-2xl font-bold text-foreground mb-6">Find Me</h2>
     <div class="flex flex-wrap gap-4">
-      <a href="https://github.com/MarcelRoozekrans" target="_blank" rel="noopener"
-         class="flex items-center gap-2 border border-zinc-700 text-zinc-300 px-4 py-2 rounded-lg hover:border-cyan-400 hover:text-cyan-400 transition-colors text-sm">
-        GitHub
-      </a>
-      <a href="https://www.nuget.org/profiles/MarcelRoozekrans" target="_blank" rel="noopener"
-         class="flex items-center gap-2 border border-zinc-700 text-zinc-300 px-4 py-2 rounded-lg hover:border-cyan-400 hover:text-cyan-400 transition-colors text-sm">
-        NuGet
-      </a>
-      <a href="https://www.linkedin.com/in/marcelroozekrans/" target="_blank" rel="noopener"
-         class="flex items-center gap-2 border border-zinc-700 text-zinc-300 px-4 py-2 rounded-lg hover:border-cyan-400 hover:text-cyan-400 transition-colors text-sm">
-        LinkedIn
-      </a>
-      <a href="https://keybase.io/marcelroozekrans" target="_blank" rel="noopener"
-         class="flex items-center gap-2 border border-zinc-700 text-zinc-300 px-4 py-2 rounded-lg hover:border-cyan-400 hover:text-cyan-400 transition-colors text-sm">
-        Keybase
-      </a>
+      {[
+        { href: 'https://github.com/MarcelRoozekrans', label: 'GitHub' },
+        { href: 'https://www.nuget.org/profiles/MarcelRoozekrans', label: 'NuGet' },
+        { href: 'https://www.linkedin.com/in/marcelroozekrans/', label: 'LinkedIn' },
+        { href: 'https://keybase.io/marcelroozekrans', label: 'Keybase' },
+      ].map(({ href, label }) => (
+        <a href={href} target="_blank" rel="noopener"
+           class="flex items-center gap-2 min-h-11 border border-border-strong text-body px-4 py-2 rounded-lg hover:border-accent hover:text-accent transition-colors text-sm">
+          {label}
+        </a>
+      ))}
     </div>
   </div>
 </BaseLayout>
