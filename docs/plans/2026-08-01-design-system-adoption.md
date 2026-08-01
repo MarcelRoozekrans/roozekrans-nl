@@ -13,6 +13,22 @@
 
 ---
 
+## Amendments During Execution
+
+Review found defects in this plan's own task blocks while it was being executed. Where a
+task block below and the repository disagree, **the repository is authoritative** — it has
+been through empirical browser verification that the plan text has not.
+
+| Commit | What the plan got wrong |
+|---|---|
+| `821fcc7` | The `.prose` rules were specified inside `@layer components`. The typography plugin emits into `@layer utilities`, which outranks it, so the entire block was dead code — the blog would have shipped at 2.37:1 body contrast. Now unlayered. Also removed a redundant-and-harmful `border-radius: inherit` from the focus ring. |
+| `6193db5`, `01b9377` | `--measure` was specified as `68ch (~680px)`. Neither figure was right and they were not equivalent: `ch` measures the `0` glyph, so `68ch` renders ~90 characters at ~729px. Now `41rem` on the padded wrapper — ~608px of text, ~75 characters. |
+| `ba70edd` | The sponsor link used `hover:opacity-80`, measuring **4.32:1** in light — below AA. Root cause was a missing `sponsor-hover` token. Also: `<main>` was not focusable so the skip link didn't move focus outside Chromium; the nav overflowed at 320/375px; nav touch targets were 33px against a 44px requirement; `transition-all` animated `box-shadow`; and tag chips stepped the wrong way in dark. |
+
+The Task 3-7 blocks below show the markup **as originally specified**, not as finally
+shipped. They were correct enough to execute from — every defect above was found after
+those commits landed, by review rather than by transcription error.
+
 ## Read This First
 
 **There is no test framework in this repo.** No vitest, no playwright, no jest. CI runs exactly two commands: `npm run check` (`astro check`) and `npm run build`. Do not add a test framework — that is out of scope for this phase.
@@ -638,7 +654,7 @@ git commit -m "feat(design): migrate Footer to tokens, add sponsor token, fix mo
 **Step 1: Replace the `<article>` block** (leave the frontmatter unchanged)
 
 ```astro
-<article class="group rounded-xl border border-border bg-surface p-6 shadow-[var(--shadow-card)] hover:-translate-y-1 hover:border-accent-border hover:shadow-[var(--shadow-card-hover)] transition-all duration-200">
+<article class="group rounded-xl border border-border bg-surface p-6 shadow-[var(--shadow-card)] hover:-translate-y-1 hover:border-accent-border hover:shadow-[var(--shadow-card-hover)] transition-[translate,border-color,box-shadow] duration-200">
   <h3 class="font-semibold text-foreground text-lg mb-2">{title}</h3>
   <p class="text-muted text-sm mb-4 leading-relaxed">{description}</p>
   <div class="flex flex-wrap gap-2 mb-4">
@@ -695,7 +711,7 @@ git commit -m "feat(design): migrate ProjectCard to tokens with light-mode shado
 **Step 1: Replace the `<a>` block**
 
 ```astro
-<a href={`/blog/${id}`} class="group block rounded-xl border border-border bg-surface p-6 shadow-[var(--shadow-card)] hover:-translate-y-1 hover:border-accent-border hover:shadow-[var(--shadow-card-hover)] transition-all duration-200">
+<a href={`/blog/${id}`} class="group block rounded-xl border border-border bg-surface p-6 shadow-[var(--shadow-card)] hover:-translate-y-1 hover:border-accent-border hover:shadow-[var(--shadow-card-hover)] transition-[translate,border-color,box-shadow] duration-200">
   <time datetime={date.toISOString()} class="font-mono text-xs text-muted">{formattedDate}</time>
   <h3 class="font-semibold text-foreground text-lg mt-1 mb-2 group-hover:text-accent transition-colors">{title}</h3>
   <p class="text-muted text-sm leading-relaxed mb-3">{description}</p>
@@ -767,6 +783,7 @@ git commit -m "fix(a11y): raise BlogCard date contrast above AA, add datetime at
   </section>
 
   <!-- Featured Projects -->
+  {featuredProjects.length > 0 && (
   <section class="mx-auto max-w-5xl px-6 py-16">
     <div class="flex items-center justify-between mb-8">
       <h2 class="text-2xl font-bold text-foreground">Featured Projects</h2>
@@ -809,11 +826,17 @@ git commit -m "fix(a11y): raise BlogCard date contrast above AA, add datetime at
   )}
 ```
 
+> The Featured Projects `<section>` above is wrapped in `{featuredProjects.length > 0 && ( ... )}`
+> and closed with a matching `)}` — mirroring the Latest Posts guard. Keep both.
+
 The hero glow now reads `var(--hero-glow)`, which resolves to `transparent` in light mode — the glow disappears with no conditional markup. The hero `h1` moves to the `display` clamp.
 
 **Step 2: Guard the featured-projects section**
 
-Per the contract, mirror the posts guard. Wrap the Featured Projects `<section>` in `{featuredProjects.length > 0 && ( ... )}` so an empty `featured` set renders nothing rather than a heading over an empty grid.
+Per the contract, mirror the posts guard: wrap the Featured Projects `<section>` in
+`{featuredProjects.length > 0 && ( ... )}` so an empty `featured` set renders nothing rather
+than a heading over an empty grid. Apply this to the block above as you paste it — the
+markup shown already includes the guard.
 
 **Step 3: Verify**
 
@@ -951,7 +974,7 @@ git commit -m "feat(design): migrate index pages to tokens, add blog empty-state
         .NET version upgrades across every project, and more MCP servers and AI tooling for .NET developers.
       </p>
       <a href="https://github.com/sponsors/MarcelRoozekrans" target="_blank" rel="noopener"
-         class="inline-flex items-center gap-2 bg-sponsor-subtle border border-sponsor-border text-sponsor px-4 py-2 rounded-lg hover:border-sponsor transition-colors text-sm font-medium">
+         class="inline-flex items-center gap-2 bg-sponsor-subtle border border-sponsor-border text-sponsor px-4 py-2 rounded-lg hover:border-sponsor hover:text-sponsor-hover transition-colors text-sm font-medium">
         <span aria-hidden="true">&#10084;</span> Become a sponsor
       </a>
     </div>
