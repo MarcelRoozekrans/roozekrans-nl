@@ -160,7 +160,10 @@ Run: `npm run check:tokens`
 Expected: exit code 1, a per-file listing, and a final line reading roughly
 `check-tokens: FAILED — 70 violation(s) in 11 file(s)`.
 
-The exact count is not important — it will be near 70 (68 in `.astro` files plus the `@apply bg-zinc-950 text-white` in `global.css`). What matters: **it is non-zero and it lists all 10 component files plus `styles/global.css`.** If it reports 0, the script is not scanning correctly — fix it before continuing.
+Actual at the time of writing: `109 violation(s) in 11 file(s), 13 files scanned`. The count is
+higher than the 71-line baseline because several lines carry multiple violations. What matters:
+**it is non-zero and it lists all 10 component files plus `styles/global.css`.** If it reports 0,
+the script is not scanning correctly — fix it before continuing.
 
 **Step 4: Commit**
 
