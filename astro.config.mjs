@@ -12,8 +12,8 @@ export default defineConfig({
   markdown: {
     shikiConfig: {
       themes: {
-        light: 'github-light',
-        dark: 'github-dark',
+        light: 'github-light-high-contrast',
+        dark: 'github-dark-high-contrast',
       },
       // Without this, Shiki bakes one theme's colours in as inline style
       // declarations that no stylesheet can override. With it, it emits

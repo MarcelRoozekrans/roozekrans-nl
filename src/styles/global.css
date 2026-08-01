@@ -317,6 +317,11 @@
 .prose :where(a):not(:where([class~='not-prose'] *)) {
   text-decoration-line: underline;
   text-underline-offset: 2px;
+  /* Same column-bursting problem as inline code, one post over: a link whose
+     label is a bare URL is one unbroken word wider than the column at 320px.
+     break-word only breaks what would otherwise overflow, so links short
+     enough to fit are untouched. */
+  overflow-wrap: break-word;
 }
 
 .prose :where(code):not(:where(pre *)) {
@@ -324,6 +329,11 @@
   padding: 0.125rem 0.375rem;
   border-radius: 0.25rem;
   font-weight: 400;
+  /* A single unbroken identifier can be wider than the whole column at 320px
+     (Microsoft.Extensions.DependencyInjection measures 369px in a 272px
+     column), which scrolls the entire page sideways. Scoped to inline code, so
+     ordinary prose keeps breaking on word boundaries only. */
+  overflow-wrap: break-word;
 }
 
 .prose :where(code):not(:where(pre *))::before,
