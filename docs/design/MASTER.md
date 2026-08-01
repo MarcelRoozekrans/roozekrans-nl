@@ -501,7 +501,12 @@ are declared in `:root` rather than `@theme` — they have to be overridable per
 | `--measure` | `max-w-[var(--measure)]` | article wrapper |
 | `--measure-text` | `max-w-[var(--measure-text)]` | About intro block |
 | `--shadow-card` / `--shadow-card-hover` | `shadow-[var(--shadow-card)]` | both cards, sponsor panel |
+| `--shadow-sticky` | `shadow-[var(--shadow-sticky)]` | nav |
 | `--spacing-section` | `mt-[var(--spacing-section)]` | footer |
+| `--hero-glow` | inside `bg-[radial-gradient(…)]` | home hero |
+
+This table has been wrong twice — first counting two, then four. If you add a `:root` token,
+add its row here in the same commit.
 
 `--measure` is the padded-wrapper width; `--measure-text` is the same measure for an element
 already inside a padded container. Using the wrong one is a ~6-character error in either

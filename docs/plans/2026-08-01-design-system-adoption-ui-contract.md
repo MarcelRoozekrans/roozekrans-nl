@@ -406,7 +406,23 @@ Surfaced by review during execution, deliberately left for a later pass:
    404 pages, `text-xs uppercase tracking-widest` on About. MASTER defines one `label` slot and
    neither matches it.
 5. **Button heights vary by role** — nav and footer links and CTAs are now 44px, but the
-   design system has no single button primitive, so a sixth variant is one page away.
+   design system has no single button primitive, so a sixth variant is one page away. The
+   nav wordmark is the last sub-44px target on the site (125×24); it meets WCAG 2.5.8 AA
+   at 24×24 but misses the contract's own bar.
+6. **The guard will fail a blog post that documents this migration.** Now that it scans
+   `src/data/**`, a fenced code block containing `text-zinc-400` trips it — verified. The
+   no-suppression stance is well argued for *comments* ("reword the comment"), but "reword
+   the blog post" is weaker on a developer blog whose author just did a Tailwind migration.
+   Needs a decision before it bites: a narrow `<!-- check-tokens-ignore-next -->` scoped to
+   markdown only, or accept and reword. Do not add a general-purpose suppression mechanism —
+   that is how a gate gets quietly neutered.
+7. **`scroll-margin-top` is a tuned constant, not a derived one.** 104px clears the 101px
+   mobile nav by 3px, and holds at moderately enlarged text. At a 24px root font the nav
+   wraps to three rows (223px) and the margin under-clears by 67px. A `--nav-h` custom
+   property driving both the nav's min-height and the scroll margin would make this
+   structural. Page zoom is unaffected — it scales both.
+8. **`text-[rgb(34_211_238)]` still passes the guard.** The hex rules only match `#`-form
+   literals. Pre-existing and unexploited, but it is a real path to a raw colour value.
 
 ## Audit Target Summary
 

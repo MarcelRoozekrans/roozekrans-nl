@@ -100,9 +100,13 @@ const RULES = [
     msg: 'hex literal in an arbitrary value — reference a token var instead',
   },
   {
+    // Deliberately NOT scoped to .astro. Markdown content may contain raw HTML,
+    // so an inline style is reachable from the 32 files under src/data — the
+    // directory a content author is most likely to be editing and least likely
+    // to know the rule exists. CSS has no style attributes, so including .css
+    // costs nothing.
     re: new RegExp(`style\\s*=\\s*(?:"[^"]*|'[^']*|\\{[^}]*)${HEX}`, 'g'),
     msg: 'hex literal in an inline style — reference a token var instead',
-    files: /\.astro$/,
   },
 ];
 
