@@ -16,13 +16,13 @@ const formattedDate = date.toLocaleDateString('en-US', {
 });
 ---
 
-<a href={`/blog/${id}`} class="group block rounded-xl border border-zinc-800 bg-zinc-900 p-6 hover:-translate-y-1 hover:border-cyan-400/40 transition-all duration-200">
-  <time class="font-mono text-xs text-zinc-500">{formattedDate}</time>
-  <h3 class="font-semibold text-white text-lg mt-1 mb-2 group-hover:text-accent transition-colors">{title}</h3>
-  <p class="text-zinc-400 text-sm leading-relaxed mb-3">{description}</p>
+<a href={`/blog/${id}`} class="group block rounded-xl border border-border bg-surface p-6 shadow-[var(--shadow-card)] hover:-translate-y-1 hover:border-accent-border hover:shadow-[var(--shadow-card-hover)] transition-all duration-200">
+  <time datetime={date.toISOString()} class="font-mono text-xs text-muted">{formattedDate}</time>
+  <h3 class="font-semibold text-foreground text-lg mt-1 mb-2 group-hover:text-accent transition-colors">{title}</h3>
+  <p class="text-muted text-sm leading-relaxed mb-3">{description}</p>
   <div class="flex flex-wrap gap-2">
     {tags.map(tag => (
-      <span class="font-mono text-xs bg-zinc-800 text-cyan-400 px-2 py-0.5 rounded">{tag}</span>
+      <span class="font-mono text-xs bg-surface-subtle text-accent px-2 py-0.5 rounded">{tag}</span>
     ))}
   </div>
 </a>
