@@ -258,8 +258,8 @@ Shell `max-w-5xl` (1024px), gutters `px-6`. Article pages: single centred `var(-
 ### Mobile (<768px)
 
 - All grids → single column; stats → 2 columns (not 1 — four single-column stats read as a list, not a summary).
-- Nav remains horizontal; wordmark + 4 short labels fit at 375px. Verify at 320px.
-- Touch targets ≥44×44px — the current `py-2.5` CTAs are 44px and pass; nav links need vertical padding checked.
+- Nav **wraps** below `sm`. The original assumption — "wordmark + 4 short labels fit at 375px" — was **falsified by measurement**: `document.scrollWidth` was 401px at both 375px and 320px, clipping "Blog" off-screen. The nav container and its list both carry `flex-wrap`, and the wordmark drops to `text-base` below `sm`. Still no hamburger at any breakpoint.
+- Touch targets ≥44×44px. The `py-2.5` CTAs pass at 44px. Nav links measured **33–34px** and were corrected to `min-h-11`, with the current-page underline moved onto an inner `<span>` so it hugs the text rather than sitting at the bottom of a 44px box.
 - Hero `display` clamp bottoms out at 2.5rem/40px.
 
 ---
@@ -339,6 +339,17 @@ All resolved 2026-08-01. No blockers remain — implementation may proceed.
    high-legibility; does not compete with the cyan accent.
 
 ---
+
+## Deployment Constraint
+
+**This branch must not be deployed until Tasks 8–13 land.** Task 3–7 is the commit
+after which a partial deploy becomes user-visible breakage: it makes the light theme
+reachable in real components, while every page heading is still `text-white` — measured
+at **1.04:1** on `/`, `/projects`, `/blog`, `/about` and every post. Effectively invisible.
+
+This matters more than it might appear, because light is the majority path: per Media
+Queries L5, `prefers-color-scheme: light` matches both an explicit light preference *and*
+no active preference. The phase is all-or-nothing; there is no safe intermediate merge point.
 
 ## Audit Target Summary
 

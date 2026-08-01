@@ -60,7 +60,14 @@ conveys state.
 | Token | Hex | Usage | Contrast |
 |---|---|---|---|
 | `sponsor` | `#F472B6` | GitHub Sponsors CTA text and border. `pink-400`. | 7.5:1 on `background` |
+| `sponsor-hover` | `#F9A8D4` | Hover for sponsor text. Light counterpart `#9D174D`. | 11.0:1 dark / 7.6:1 light |
 | `sponsor-subtle` | `rgba(236,72,153,0.10)` | Sponsor CTA fill. | — |
+
+A hover token is mandatory for any colour used as text. The first cut of this
+system defined `sponsor` without one, and the implementation reached for
+`hover:opacity-80` instead — which measured 4.32:1 in light mode, below AA.
+**Never express a hover state as reduced opacity on text.** It lowers contrast
+by construction, and it is a weaker affordance than a hue change.
 
 The one hue besides the accent. It is **not** a second brand color: it is a
 borrowed affordance for an external service, scoped to sponsor CTAs and nowhere
@@ -271,8 +278,8 @@ in this system.
 |---|---|
 | Card | Gains `--shadow-card`; hover swaps to `--shadow-card-hover` **in addition to** `-translate-y-1`. Border drops to a secondary role. |
 | Hero | The `accent-subtle` radial glow is removed entirely — a glow on white is dirt, not light. Use plain `background` with the section hairline instead. |
-| Tag / Badge | `surface-subtle` fill (a step *down* from the white card, inverting the dark-mode relationship) with `accent` text. |
-| Nav | Transparent at rest; gains `--shadow-sticky` once scrolled rather than relying on the hairline alone. |
+| Tag / Badge | `chip` fill resolves to `#F4F4F5` — a step *down* from the white card, inverting the dark-mode relationship. Handled by the token; no per-theme markup. |
+| Nav | Carries `--shadow-sticky` unconditionally, alongside the hairline. Not scroll-conditional: that would require a scroll listener, and this site ships no client-side JS. The shadow token is `none` in dark, so the rule costs nothing there. |
 | Code block | `surface-subtle` fill, not `surface` — code should recede from body copy here, whereas in dark mode it lifts. Shiki needs a paired light theme configured. |
 | Secondary button | Border `border-strong`; hover darkens border to `text-disabled`, fill stays transparent. |
 
@@ -354,14 +361,14 @@ Never more than two CTAs at the same visual level in one section.
 
 - `surface` fill, `border` hairline, `radius-xl`, `space-6` padding
 - Title `h4` in `text-primary`; description `body-sm` in `text-muted`, clamped to 3 lines
-- Hover: `-translate-y-1` + border → `accent-border`, `duration-200`. Transform and color only — never animate `box-shadow` or layout properties.
+- Hover: `-translate-y-1` + border → `accent-border`, plus the shadow step in light mode. `duration-200`, with the transition property list named explicitly — never `transition-all`. Never animate layout properties.
 - **Whole-card linking applies only when the card has one canonical destination.** BlogCard does (the post), so it is a single `<a>` wrapping the content. ProjectCard does *not* — it carries 2–4 co-equal external destinations (GitHub, NuGet, Marketplace, Docs) and no primary one, so it stays a non-link `<article>` with discrete link targets. Do not force a whole-card link where there is no single obvious target; that produces an unpredictable click.
 - Cards that are not links still get the hover lift, driven by `group-hover`. The lift signals "interactive content within", not "click anywhere".
 
 ### Tag / Badge
 
 - `mono` at `label` size, `space-1`/`space-2` padding, `radius-sm`
-- `surface` step above its container, `accent` text
+- `chip` fill, `accent` text. The `chip` token exists precisely because the step direction inverts: it sits **above** the card in dark (`#27272A` on `#18181B`) and **below** it in light (`#F4F4F5` on `#FFFFFF`). `surface-subtle` cannot serve this — it recedes in both themes, which in dark makes a chip read as a hole punched in the card.
 - Tags are metadata, not controls — do not add hover states unless they filter
 
 ### Stat Figure
@@ -390,7 +397,9 @@ is the primary keyboard affordance across the whole site.
 
 ### Motion
 
-- Duration 150–200ms, `ease-out`. Transitions on `color`, `border-color`, `opacity`, `transform` only.
+- Duration 150–200ms, `ease-out`. Transition an **explicit property list** — never `transition-all`, which sweeps up `background-color`, `filter`, `outline-color` and anything else that happens to change.
+- Permitted properties: `translate`/`transform`, `color`, `border-color`, `opacity`, and `box-shadow`.
+  - `box-shadow` is permitted **only** because light mode's elevation ladder is shadow-led, and only on single-element hover. It remains banned on anything that animates many elements at once — it forces a non-composited paint.
 - All motion respects `prefers-reduced-motion: reduce` — transitions collapse to `0.01ms`.
 - No scroll-triggered animation, no parallax.
 
