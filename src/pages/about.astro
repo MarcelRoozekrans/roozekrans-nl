@@ -2,15 +2,17 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 
 const skills = [
-  { category: 'Languages', items: ['C#', 'TypeScript', 'JavaScript', 'SQL'] },
-  { category: 'Frameworks', items: ['.NET 8/9', 'ASP.NET Core', 'Blazor', 'Astro'] },
-  { category: 'Tooling', items: ['Roslyn', 'Source Generators', 'Docker', 'Git'] },
+  { category: 'Languages', items: ['C#', 'TypeScript', 'JavaScript', 'SQL', 'PowerShell'] },
+  { category: 'Frameworks', items: ['.NET 8/9/10', 'ASP.NET Core', 'Blazor', 'Astro'] },
+  { category: 'AI', items: ['Microsoft.Extensions.AI', 'MCP', 'RAG & embeddings', 'OWASP LLM Top 10'] },
+  { category: 'Cloud', items: ['Azure', 'AWS', 'Terraform', 'Kubernetes'] },
+  { category: 'Tooling', items: ['Roslyn', 'Source Generators', 'Native AOT', 'Docker', 'Git'] },
   { category: 'Interests', items: ['Open Source', 'Performance', 'Developer Tools', 'Clean Architecture'] },
 ];
 
 const certifications = [
-  'MS: Programming in C# Specialist',
-  'MCPS: Microsoft Certified Professional',
+  'MS: Programming in C# Specialist (70-483)',
+  'MS: Querying Microsoft SQL Server (70-461)',
   'Cisco Certified Network Associate (CCNA)',
 ];
 ---
@@ -21,7 +23,7 @@ const certifications = [
 
     <div class="mb-12 max-w-[var(--measure-text)]">
       <p class="text-body text-lg leading-relaxed mb-4">
-        Hi! I'm Marcel — a software engineer based in Heemstede, the Netherlands.
+        Hi! I'm Marcel — a software engineer based in Cruquius, the Netherlands.
         I run <strong class="text-foreground">Roozekrans IT-Solutions</strong> and have extensive experience in
         website and software development, with a deep focus on the .NET ecosystem.
       </p>
@@ -38,7 +40,7 @@ const certifications = [
     </div>
 
     <h2 class="text-2xl font-bold text-foreground mb-6">Skills &amp; Tech</h2>
-    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12">
+    <div class="grid grid-cols-2 md:grid-cols-3 gap-6 mb-12">
       {skills.map(({ category, items }) => (
         <div>
           <h3 class="font-mono text-accent text-xs uppercase tracking-widest mb-3">{category}</h3>
