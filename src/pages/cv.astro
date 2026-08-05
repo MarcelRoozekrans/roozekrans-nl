@@ -1,0 +1,126 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const assignments = [
+  {
+    period: 'Dec 2025 — present',
+    client: 'Wigo4IT, The Hague',
+    role: 'Lead .NET developer',
+    project: 'Motiveren versus rapporteren',
+    body: [
+      'Socrates has no shortage of screens for capturing data, but there was no clear way to make that data legible. Every mutation lands in a historical database; on top of it we introduced a timeline that shows a caseworker the status of a client at a glance.',
+      'The cities are also used to recording every action in separate reports, even when the information already sits in the application — double entry. By letting decisions be motivated in the timeline itself, that second route becomes unnecessary. I own the timeline end to end: queries over the mutation history, the API, the Blazor screens and the automated tests. Socrates is used daily by 7,500 caseworkers.',
+    ],
+    stack: ['C#', '.NET 10', 'Blazor', 'Web API', 'Azure', 'EntraID B2C', 'Azure DevOps', 'xUnit', 'bUnit', 'Cypress', 'Oracle'],
+  },
+  {
+    period: 'Nov 2024 — Dec 2025',
+    client: 'Wigo4IT, The Hague',
+    role: 'Full-stack .NET developer',
+    project: 'ITP to the cloud',
+    body: [
+      'ITP is the document product in the Wigo4it landscape: a third-party package on a Windows VM, behind the five million documents Socrates produces every year. To let it take part in the cloud-native landscape it was lifted and shifted to Azure and reconfigured accordingly.',
+      'My focus was the infrastructure and the test pipeline: the Azure environment as infrastructure as code with Terraform, build and release pipelines in Azure DevOps, a Cypress smoke test that prints a document to confirm the chain works at all, and a BDD suite in TypeScript with Gherkin that checks 60 document types against their specifications.',
+    ],
+    stack: ['C#', '.NET 9', 'Azure', 'Terraform', 'PowerShell', 'Azure DevOps', 'Cypress', 'Gherkin', 'TypeScript'],
+  },
+  {
+    period: 'Jan 2022 — Jul 2024',
+    client: 'Wigo4IT, The Hague',
+    role: 'Full-stack .NET developer',
+    project: 'Web screens',
+    body: [
+      'Wigo4it is the non-profit IT cooperative of Amsterdam, Rotterdam, The Hague and Utrecht. Its core application Socrates calculates and pays out benefits on 4,400 built-in legal rules, good for €2.2 billion in social provisions a year and used daily by 7,500 professionals.',
+      'To make the service cheaper and more future-proof, Socrates had to be rebuilt from WPF to Blazor and opened up to the four cities over the public cloud. We went live with the full Blazor application in December 2023, followed by six months of hypercare.',
+    ],
+    stack: ['C#', 'TypeScript', '.NET Framework 4.7 → .NET 8', 'Blazor', 'Azure', 'Terraform', 'Helm', 'Kubernetes', 'Cypress', 'Oracle'],
+  },
+  {
+    period: 'Nov 2020 — Dec 2021',
+    client: 'CarNext B.V., Amsterdam',
+    role: 'Lead .NET developer',
+    project: 'Right of First Pick',
+    body: [
+      'LeasePlan offers CarNext the chance to buy vehicles before they are offered to other parties. I designed the architecture for the backend service that groups the information and orchestrates that process, after which the vehicles are remarketed on the auction and e-commerce platform.',
+      'CQS through MediatR, Kafka for publishing and consuming domain events, Okta for authentication and authorisation, and a CI/CD pipeline on GitLab with CloudFormation and a OneFlow branching strategy.',
+    ],
+    stack: ['C#', '.NET 5', 'AWS', 'CloudFormation', 'Kafka', 'MediatR', 'Okta', 'Docker', 'xUnit'],
+  },
+  {
+    period: 'Sep 2019 — Oct 2020',
+    client: 'CarNext B.V., Amsterdam',
+    role: 'Backend .NET developer',
+    project: 'Invoicing',
+    body: [
+      'CarNext was splitting off from LeasePlan as an independent company, which meant taking over invoicing for 23 countries, with PwC as the partner handling settlement per country.',
+      'We hooked into the existing LeasePlan systems and turned the messages we listened to into actions towards PwC through an event-sourcing system. Along the way all services moved from .NET Core 2.2 to 3.1 and from MSSQL to PostgreSQL.',
+    ],
+    stack: ['C#', '.NET Core 3.1', 'AWS', 'Cognito', 'Kafka', 'Event sourcing', 'PostgreSQL', 'Grafana', 'Prometheus'],
+  },
+];
+
+const earlier = [
+  { period: '2019', client: 'RDC InMotiv', text: 'Backend .NET developer — ViaBovag.nl: broke up the monolith into microservices on Azure Functions, each with its own repository, pipeline and ARM templating.' },
+  { period: '2017 — 2019', client: 'RDC InMotiv', text: 'Lead .NET developer — ROC-Hub: IoT bridge between dealer management systems and Azure. Guarded the architecture, led the migrations to .NET Core and EF Core, brought test coverage to 80% and moved CI/CD from Bamboo to Azure DevOps.' },
+  { period: '2017', client: 'LeaseWeb Global', text: 'Backend .NET developer (interim) — IPAM web tool and the CAS customer administration.' },
+  { period: '2017', client: 'KPMG Netherlands', text: 'Lead .NET developer — ePlanning: led the junior developers and the team in India, refactored to dependency injection, restructured the database model and set up the CI environment.' },
+  { period: '2016', client: 'Triple-IT', text: 'Backend .NET developer — greenfield backend for an educational hospitality app: Web API with GraphQL and authentication through IdentityServer 3.' },
+  { period: '2016', client: 'Parkmobile', text: 'Backend .NET developer — ParkNow Switzerland and France: high-traffic multi-tier web applications and RESTful APIs, security to the OWASP Top 10.' },
+  { period: '2015 — 2016', client: 'Stichting SENA', text: 'Full-stack .NET developer — MySena: the PCI-compliant portal for rights holders, built to the OWASP standard.' },
+  { period: '2013 — 2015', client: 'ZyLAB Benelux', text: '.NET developer and consultant — eDiscovery and archiving software, with implementations at clients at home and abroad.' },
+  { period: '2008 — 2013', client: 'CCL, Experience-Groep, NOSK IT, Regeltante', text: '.NET developer and consultant.' },
+];
+---
+
+<BaseLayout
+  title="CV"
+  description="Work experience of Marcel Roozekrans — freelance .NET developer and lead, working in government, automotive and finance since 2009."
+>
+  <div class="mx-auto max-w-5xl px-6 py-16">
+    <h1 class="text-4xl font-bold text-foreground mb-4">CV</h1>
+    <p class="text-body text-lg leading-relaxed mb-12 max-w-[var(--measure-text)]">
+      Freelance .NET developer and lead since 2009, through{' '}
+      <strong class="text-foreground">Roozekrans IT-Solutions</strong>. Most of my work is taking existing
+      systems to their next stage — which only works if the shop stays open while you do it, so it takes
+      as much talking as it does code.
+    </p>
+
+    <h2 class="text-2xl font-bold text-foreground mb-8">Assignments</h2>
+    <div class="space-y-10 mb-16">
+      {assignments.map(({ period, client, role, project, body, stack }) => (
+        <article class="rounded-xl border border-border bg-surface p-6 shadow-[var(--shadow-card)]">
+          <p class="font-mono text-accent text-xs uppercase tracking-widest mb-2">{period}</p>
+          <h3 class="text-xl font-bold text-foreground">{project}</h3>
+          <p class="text-muted text-sm mb-4">{role} &middot; {client}</p>
+          {body.map(paragraph => (
+            <p class="text-body text-sm leading-relaxed mb-3 max-w-[var(--measure-text)]">{paragraph}</p>
+          ))}
+          <ul class="flex flex-wrap gap-2 mt-4">
+            {stack.map(item => (
+              <li class="rounded-md border border-border px-2 py-0.5 font-mono text-xs text-muted">{item}</li>
+            ))}
+          </ul>
+        </article>
+      ))}
+    </div>
+
+    <h2 class="text-2xl font-bold text-foreground mb-6">Earlier</h2>
+    <ul class="space-y-4 mb-12">
+      {earlier.map(({ period, client, text }) => (
+        <li class="border-l-2 border-border pl-4">
+          <p class="font-mono text-accent text-xs uppercase tracking-widest">{period} &middot; {client}</p>
+          <p class="text-body text-sm leading-relaxed max-w-[var(--measure-text)]">{text}</p>
+        </li>
+      ))}
+    </ul>
+
+    <div class="rounded-xl border border-border bg-surface p-6 shadow-[var(--shadow-card)]">
+      <p class="text-body text-sm leading-relaxed max-w-[var(--measure-text)]">
+        Studied Information Engineering (HBO Informatica, 2004&ndash;2009). Certified in Programming in C#
+        (70-483) and Querying Microsoft SQL Server (70-461), plus Cisco CCNA. Screened by the AIVD in 2013
+        and 2014 and by the DSI in 2016; all three have since expired.
+        Reachable at <a href="mailto:marcel@roozekrans.nl" class="text-accent hover:text-accent-hover">marcel@roozekrans.nl</a>.
+      </p>
+    </div>
+  </div>
+</BaseLayout>
