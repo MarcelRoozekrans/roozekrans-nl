@@ -12,8 +12,12 @@ const latestPosts = (await getCollection('blog', ({ data }) => !data.draft))
   .slice(0, 3);
 
 // Open source at a glance. Everything except the download figure is derived
-// from the projects collection, so it stays correct as entries are added.
+// from the projects collection, so it stays correct as entries are added --
+// but only for projects that actually declare `packages`, so a new library
+// must carry that field or it silently drops out of the total.
 // Downloads only ever grow, so the rounded-down floor cannot go stale.
+// Last reconciled against nuget.org on 2026-09-14: 212 packages, 844,254
+// downloads across the MarcelRoozekrans and ZeroAlloc.NET profiles.
 const allProjects = await getCollection('projects');
 
 const stats = [
@@ -26,7 +30,7 @@ const stats = [
     value: String(allProjects.filter(p => p.data.tags.includes('MCP')).length),
     label: 'MCP servers & integrations',
   },
-  { value: '500K+', label: 'NuGet downloads' },
+  { value: '800K+', label: 'NuGet downloads' },
 ];
 ---
 
