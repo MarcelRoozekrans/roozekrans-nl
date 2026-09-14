@@ -4,7 +4,7 @@ description: "Extension skills for the superpowers suite: regression testing, pr
 tags: ["AI", "Claude Code", "Developer Tools"]
 github: "https://github.com/MarcelRoozekrans/superpowers-extensions"
 featured: false
-order: 14
+order: 16
 ---
 
 Extension skills for the superpowers suite: regression testing, pre-push review, refactor analysis, decision tracking, Roslyn code graph integration, and companion ecosystem plugins for Claude Code.
