@@ -7,7 +7,7 @@ nuget: "https://www.nuget.org/packages/BlazorNative.Core"
 docs: "https://marcelroozekrans.github.io/BlazorNative/"
 featured: false
 order: 10
-packages: 8
+packages: 9
 ---
 
 Write your UI once as Blazor components and render it as genuine native widgets on iOS and Android — no WebView, no JavaScript interop bridge. The renderer maps the Blazor component tree onto platform controls through NativeAOT, with Yoga handling layout so flexbox semantics behave the same on both platforms.
