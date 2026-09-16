@@ -10,8 +10,9 @@ const assignments = [
     body: [
       'Socrates has no shortage of screens for capturing data, but there was no clear way to make that data legible. Every mutation lands in a historical database; on top of it we introduced a timeline that shows a caseworker the status of a client at a glance.',
       'The cities are also used to recording every action in separate reports, even when the information already sits in the application — double entry. By letting decisions be motivated in the timeline itself, that second route becomes unnecessary. I own the timeline end to end: queries over the mutation history, the API, the Blazor screens and the automated tests. Socrates is used daily by 7,500 caseworkers.',
+      'Alongside the timeline I automate the development process itself. I designed and built an autonomous agent loop that picks up a work item, has a fix generated for it, and then verifies that fix independently — build, tests and formatting — before a pull request is ever opened. The gate sits in the loop rather than in the agent: an agent reporting success is not evidence of success. I also built and rolled out MCP servers that let agents query the codebase and the work board, and authored the skills and agents the team now uses daily.',
     ],
-    stack: ['C#', '.NET 10', 'Blazor', 'Web API', 'Azure', 'EntraID B2C', 'Azure DevOps', 'xUnit', 'bUnit', 'Cypress', 'Oracle'],
+    stack: ['C#', '.NET 10', 'Blazor', 'Web API', 'Azure', 'EntraID B2C', 'Azure DevOps', 'xUnit', 'bUnit', 'Cypress', 'Copilot CLI', 'MCP', 'Application Insights', 'Oracle'],
   },
   {
     period: 'Aug 2024 — Dec 2025',
