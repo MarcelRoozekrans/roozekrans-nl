@@ -1,13 +1,13 @@
 ---
 title: "ZeroAlloc.NET"
-description: "A 96-package .NET ecosystem where every dispatch, registration, and validation rule is wired at compile time by Roslyn source generators — no reflection, no boxing, Native AOT safe."
+description: "A 102-package .NET ecosystem where every dispatch, registration, and validation rule is wired at compile time by Roslyn source generators — no reflection, no boxing, Native AOT safe."
 tags: [".NET", "Source Generators", "Performance", "Native AOT"]
 github: "https://github.com/ZeroAlloc-Net"
 nuget: "https://www.nuget.org/profiles/ZeroAlloc.NET"
 docs: "https://zeroalloc.net"
 featured: true
 order: 1
-packages: 96
+packages: 102
 ---
 
 A cohesive ecosystem of zero-allocation .NET libraries built on Roslyn source generators. Every dispatch, registration, mapping, and validation rule is resolved at compile time — no reflection, no boxing, no runtime dictionaries — which keeps the hot path allocation-free and the whole surface Native AOT safe.
