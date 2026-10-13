@@ -5,7 +5,7 @@ tags: [".NET", "Roslyn", "Security", "OWASP"]
 github: "https://github.com/MarcelRoozekrans/Owasp.Analyzers"
 nuget: "https://www.nuget.org/packages/Owasp.Analyzers"
 featured: false
-order: 13
+order: 14
 packages: 1
 ---
 

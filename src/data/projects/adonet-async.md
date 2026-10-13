@@ -5,7 +5,7 @@ tags: [".NET", "ADO.NET", "Async", "NuGet"]
 github: "https://github.com/MarcelRoozekrans/AdoNet.Async"
 nuget: "https://www.nuget.org/packages/AdoNet.Async"
 featured: false
-order: 19
+order: 20
 packages: 6
 ---
 
