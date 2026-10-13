@@ -4,8 +4,8 @@ description: "Unofficial .NET client for TypeSafe's Jev decision models — decl
 tags: [".NET", "AI", "Source Generators", "Native AOT"]
 github: "https://github.com/MarcelRoozekrans/Minos.NET"
 docs: "https://marcelroozekrans.github.io/Minos.NET/"
-featured: false
-order: 9
+featured: true
+order: 4
 ---
 
 An unofficial .NET client for decision models: send a `state` and a set of typed questions — Noul, Choice, and Score — and get calibrated, typed answers back. It speaks the `/v1/systemone` protocol of TypeSafe's Jev, directly, through OpenRouter, or against a server you run yourself, and a separate package targets OpenAI's Decisions API.

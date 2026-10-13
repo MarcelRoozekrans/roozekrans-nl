@@ -4,8 +4,8 @@ description: "A modular RAG pipeline library for .NET, built on the Microsoft.Ex
 tags: [".NET", "AI", "RAG"]
 github: "https://github.com/MarcelRoozekrans/Rag.NET"
 nuget: "https://www.nuget.org/packages/Rag.NET"
-featured: false
-order: 13
+featured: true
+order: 6
 packages: 73
 ---
 
