@@ -6,7 +6,7 @@ github: "https://github.com/MarcelRoozekrans/BlazorNative"
 nuget: "https://www.nuget.org/packages/BlazorNative.Core"
 docs: "https://marcelroozekrans.github.io/BlazorNative/"
 featured: false
-order: 10
+order: 11
 packages: 9
 ---
 
