@@ -62,9 +62,26 @@ A conformance suite checks any decision endpoint's shapes, probabilities, errors
 
 The rest is what a .NET host expects: dependency injection with keyed clients, caching and rate limiting as optional pipeline stages, OpenTelemetry traces and metrics, and analyzers with code fixes that catch a malformed question set at compile time.
 
-## Heading for 1.0
+## Recording Decisions
 
-The public API has been through its 1.0 review, and the remaining step is publishing every package to NuGet as 1.0.0. Until then the repository and the [guide](https://marcelroozekrans.github.io/Minos.NET/) are public, and the samples replay recorded answers, so they run offline without an API key.
+Since 1.3, `Minos.NET.Recording` keeps a record of every decision your app makes. One pipeline stage hands each decision to a recorder, and the recorder writes it to a JSONL file, to memory or to a store of your own. Later you attach what actually happened, such as the answer a reviewer confirmed, by the decision's id, and you erase a customer's records by a key you chose.
+
+Those records are what you turn into a labelled dataset, so you can measure a model on your own traffic instead of someone else's benchmark. The stage returns the inner client's result unchanged, so it never makes a decision fail. It runs your redaction before anything is kept, and it never puts the state, a decision id or an erasure key in a log, a trace or a metric.
+
+## Choosing a Provider and a Threshold
+
+A confidence is only useful once you know where to cut. The guide has a page that runs a Banking77 sample against TypeSafe, Clef Flash and a local model and compares how accurate, how well calibrated, how costly and how fast each one was, then walks through picking a threshold from those results. The `minos` dotnet tool runs the same calibration and report against a dataset of your own.
+
+## On NuGet
+
+Minos.NET is at 1.x: the public API is stable and follows semantic versioning. All nine packages are on NuGet: the provider-neutral core with the source generator and analyzers, the `/v1/systemone` and OpenAI clients, dependency injection, the caching and rate-limiting stages, labelled datasets, recording, and the `minos` tool with `calibrate`, `report` and `conformance`.
+
+```shell
+dotnet add package Minos.NET.SystemOne
+dotnet add package Minos.NET.DependencyInjection
+```
+
+The [guide](https://marcelroozekrans.github.io/Minos.NET/) is public, and the samples replay recorded answers, so they run offline without an API key.
 
 Minos is not affiliated with TypeSafe, which publishes official SDKs for Python and JavaScript.
 
