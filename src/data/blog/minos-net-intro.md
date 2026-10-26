@@ -83,6 +83,8 @@ dotnet add package Minos.NET.DependencyInjection
 
 The [guide](https://marcelroozekrans.github.io/Minos.NET/) is public, and the samples replay recorded answers, so they run offline without an API key.
 
+Minos.NET is built on [ZeroAlloc](https://zeroalloc.net) libraries such as Results, Resilience and Validation.
+
 Minos is not affiliated with TypeSafe, which publishes official SDKs for Python and JavaScript.
 
 ---
