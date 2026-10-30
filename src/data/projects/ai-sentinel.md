@@ -7,6 +7,7 @@ nuget: "https://www.nuget.org/packages/AI.Sentinel"
 docs: "https://marcelroozekrans.github.io/AI.Sentinel/"
 featured: true
 order: 5
+group: ai
 packages: 15
 ---
 

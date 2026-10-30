@@ -6,6 +6,7 @@ github: "https://github.com/MarcelRoozekrans/AdoNet.Async"
 nuget: "https://www.nuget.org/packages/AdoNet.Async"
 featured: false
 order: 20
+group: other
 packages: 6
 ---
 

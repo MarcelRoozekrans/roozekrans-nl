@@ -7,6 +7,7 @@ marketplace: "https://marketplace.visualstudio.com/items?itemName=lucentcode.luc
 docs: "https://docs.lucentcode.dev"
 featured: false
 order: 13
+group: other
 ---
 
 AI coding assistant for VS Code that understands your codebase the same way your editor does — through the language server, not file search. Resolves symbols, follows definitions, reads live diagnostics, and supports any model via OpenRouter, Anthropic, or NVIDIA NIM. Includes inline completions, a streaming chat panel, slash-command skills, MCP support, and git worktree isolation.

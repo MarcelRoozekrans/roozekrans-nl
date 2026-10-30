@@ -5,6 +5,7 @@ tags: ["VS Code", "AI", "GitHub Copilot", "Claude Code"]
 github: "https://github.com/MarcelRoozekrans/Copilot-Skill-Bridge"
 featured: false
 order: 16
+group: other
 ---
 
 VS Code extension that bridges Claude Code marketplace skills into GitHub Copilot — discovers, converts, and imports skills with smart compatibility analysis.

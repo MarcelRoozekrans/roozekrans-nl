@@ -7,6 +7,7 @@ nuget: "https://www.nuget.org/packages/Minos.NET.SystemOne"
 docs: "https://marcelroozekrans.github.io/Minos.NET/"
 featured: true
 order: 4
+group: ai
 ---
 
 An unofficial .NET client for decision models: send a `state` and a set of typed questions — Noul, Choice, and Score — and get calibrated, typed answers back. It speaks the `/v1/systemone` protocol of TypeSafe's Jev, directly, through OpenRouter, or against a server you run yourself, and a separate package targets OpenAI's Decisions API.

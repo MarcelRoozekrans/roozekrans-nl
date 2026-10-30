@@ -25,6 +25,8 @@ const projects = defineCollection({
     docs: z.url().optional(),
     featured: z.boolean().default(false),
     order: z.number().default(99),
+    // Section on the projects page: the ZeroAlloc suite, the AI work, or everything else.
+    group: z.enum(['zeroalloc', 'ai', 'other']).default('other'),
     // Number of NuGet packages this project ships. Feeds the homepage stats.
     packages: z.number().optional(),
   }),
