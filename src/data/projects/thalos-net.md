@@ -7,9 +7,9 @@ nuget: "https://www.nuget.org/packages/Thalos.NET"
 featured: false
 order: 7
 group: ai
-packages: 18
+packages: 19
 ---
 
 An agent framework for .NET built on Microsoft Agent Framework, where the parts that usually get bolted on afterwards — tool authorization, long-term memory, procedure documents, transport — are ports in the runtime instead. Agents declare their tools as a glob allow-list over qualified `{source}__{tool}` names, and authorization is enforced at the function boundary, before the tool runs, rather than by reading the chat stream once it already has.
 
-Eighteen packages let you take only the surface you need: MCP servers as tool sources, an Anthropic chat-client provider, AI.Sentinel scanning at the model boundary, pgvector-backed memory through Rag.NET, `SKILL.md` procedures resolved by in-process cosine search, and channel hosting with a Telegram transport. A durable workflow engine runs YAML-defined process graphs with approval gates, persisted through ZeroAlloc.ORM with a transactional outbox; git tools let agents branch, commit, push, and open pull requests; and per-run Docker sandboxes keep agent-written code off the host. Targets `net8.0` and `net10.0`, and ships a testing package with contract tests for anyone implementing their own store.
+Nineteen packages let you take only the surface you need: MCP servers as tool sources, an Anthropic chat-client provider, AI.Sentinel scanning at the model boundary, pgvector-backed memory through Rag.NET, `SKILL.md` procedures resolved by in-process cosine search, and channel hosting with a Telegram transport. A durable workflow engine runs YAML-defined process graphs with approval gates, persisted through ZeroAlloc.ORM with a transactional outbox; git tools let agents branch, commit, push, and open pull requests; and per-run Docker sandboxes keep agent-written code off the host. Targets `net8.0` and `net10.0`, and ships a testing package with contract tests for anyone implementing their own store.
