@@ -34,7 +34,8 @@ the slug. Frontmatter is validated at build time against the schemas in
 
 Blog posts need `title`, `description`, and `date`; `tags` and `draft` are optional.
 Projects need `title` and `description`; `tags`, `github`, `nuget`, `marketplace`, `docs`,
-`featured`, and `order` are optional. Featured projects appear on the homepage, sorted by `order`.
+`featured`, `order`, `packages` and `group` are optional. Featured projects appear on the homepage, sorted by `order`;
+`group` (`zeroalloc`, `ai` or `other`, the default) picks the section on the projects page.
 
 ## Commands
 

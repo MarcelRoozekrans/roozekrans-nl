@@ -6,6 +6,7 @@ github: "https://github.com/MarcelRoozekrans/System.Reflection.Abstractions"
 nuget: "https://www.nuget.org/packages/System.Reflection.Abstractions"
 featured: false
 order: 22
+group: other
 ---
 
 Wraps System.Reflection types in interfaces so you can swap them out in tests.

@@ -6,6 +6,7 @@ github: "https://github.com/MarcelRoozekrans/memorylens-mcp"
 nuget: "https://www.nuget.org/packages/MemoryLens.Mcp"
 featured: true
 order: 3
+group: ai
 packages: 1
 ---
 

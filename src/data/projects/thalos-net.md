@@ -6,6 +6,7 @@ github: "https://github.com/MarcelRoozekrans/Thalos.NET"
 nuget: "https://www.nuget.org/packages/Thalos.NET"
 featured: false
 order: 7
+group: ai
 packages: 18
 ---
 

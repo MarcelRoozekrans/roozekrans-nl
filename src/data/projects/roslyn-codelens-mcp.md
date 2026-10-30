@@ -6,6 +6,7 @@ github: "https://github.com/MarcelRoozekrans/roslyn-codelens-mcp"
 nuget: "https://www.nuget.org/packages/RoslynCodeLens.Mcp"
 featured: true
 order: 2
+group: ai
 packages: 1
 ---
 

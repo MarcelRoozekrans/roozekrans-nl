@@ -5,6 +5,7 @@ tags: [".NET", "AI", "Aspire", "Blazor"]
 github: "https://github.com/MarcelRoozekrans/Daedalus.NET"
 featured: false
 order: 8
+group: ai
 ---
 
 A .NET 10 application that drives AI task execution through repeated LLM iteration loops, built as a working reference for the architecture rather than as a library to depend on. Two presentation layers — a Blazor WebAssembly front end over a REST API, and a console worker that bypasses HTTP to poll the database directly on a five-second cycle — share one CQRS application and infrastructure stack, orchestrated by .NET Aspire over PostgreSQL with pgvector.

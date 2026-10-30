@@ -6,6 +6,7 @@ github: "https://github.com/MarcelRoozekrans/Rag.NET"
 nuget: "https://www.nuget.org/packages/Rag.NET"
 featured: true
 order: 6
+group: ai
 packages: 73
 ---
 

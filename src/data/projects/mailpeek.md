@@ -6,6 +6,7 @@ github: "https://github.com/MarcelRoozekrans/MailPeek"
 nuget: "https://www.nuget.org/packages/MailPeek"
 featured: false
 order: 10
+group: other
 packages: 2
 ---
 

@@ -7,6 +7,7 @@ nuget: "https://www.nuget.org/packages/BlazorNative.Core"
 docs: "https://marcelroozekrans.github.io/BlazorNative/"
 featured: false
 order: 11
+group: other
 packages: 9
 ---
 

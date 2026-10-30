@@ -6,6 +6,7 @@ github: "https://github.com/MarcelRoozekrans/Owasp.Analyzers"
 nuget: "https://www.nuget.org/packages/Owasp.Analyzers"
 featured: false
 order: 14
+group: other
 packages: 1
 ---
 
