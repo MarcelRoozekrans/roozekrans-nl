@@ -1,6 +1,6 @@
 ---
 title: "ZeroAlloc.NET"
-description: "A 105-package .NET ecosystem where every dispatch, registration, and validation rule is wired at compile time by Roslyn source generators — no reflection, no boxing, Native AOT safe."
+description: "A 100+ package .NET ecosystem where every dispatch, registration, and validation rule is wired at compile time by Roslyn source generators — no reflection, no boxing, Native AOT safe."
 tags: [".NET", "Source Generators", "Performance", "Native AOT"]
 github: "https://github.com/ZeroAlloc-Net"
 nuget: "https://www.nuget.org/profiles/ZeroAlloc.NET"
