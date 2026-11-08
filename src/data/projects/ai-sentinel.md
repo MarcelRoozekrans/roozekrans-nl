@@ -8,7 +8,7 @@ docs: "https://marcelroozekrans.github.io/AI.Sentinel/"
 featured: true
 order: 5
 group: ai
-packages: 15
+packages: 36
 ---
 
 Drop-in security middleware for any `IChatClient` built on Microsoft.Extensions.AI. 56 detectors cover the OWASP LLM Top 10 — prompt injection, jailbreaks, PII leakage, hallucination signals, and operational anomalies — and feed an intervention engine that can block, redact, or escalate a call before it reaches the model.
