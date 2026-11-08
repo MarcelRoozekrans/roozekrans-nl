@@ -17,7 +17,7 @@ const latestPosts = (await getCollection('blog', ({ data }) => !data.draft))
 // must carry that field or it silently drops out of the total.
 // Downloads only ever grow, so the rounded-down floor cannot go stale. The package total is
 // rounded down to a multiple of 5 with a "+", like the GitHub profile README, so the two agree.
-// Last reconciled against nuget.org on 2026-11-01: 248 packages, 2,959,992
+// Last reconciled against nuget.org on 2026-11-08: 273 packages, 3,281,802
 // downloads across the MarcelRoozekrans and ZeroAlloc.NET profiles.
 const allProjects = await getCollection('projects');
 
@@ -31,7 +31,7 @@ const stats = [
     value: String(allProjects.filter(p => p.data.tags.includes('MCP')).length),
     label: 'MCP servers & integrations',
   },
-  { value: '2.9M+', label: 'NuGet downloads' },
+  { value: '3.2M+', label: 'NuGet downloads' },
 ];
 ---
 
