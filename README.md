@@ -11,7 +11,7 @@ generated and deployed to Cloudflare Workers static assets.
 
 ```text
 /
-├── .github/workflows/    CI: type-check + build on push and PR
+├── .github/workflows/    CI: token guard, type-check and build on push and PR
 ├── public/               Static assets (favicons, OG image, self-hosted fonts, robots.txt)
 ├── src/
 │   ├── components/       BlogCard, ProjectCard, Nav, Footer
@@ -45,7 +45,8 @@ All commands are run from the root of the project:
 | :---------------------- | :------------------------------------------------------ |
 | `npm install`           | Install dependencies                                    |
 | `npm run dev`           | Start the dev server at `localhost:4321`                |
-| `npm run check`         | Type-check `.astro` and `.ts` files                     |
+| `npm run check:tokens`  | Fail on raw Tailwind palette utilities and hex colours  |
+| `npm run check`         | Run the token guard, then type-check `.astro` and `.ts` |
 | `npm run build`         | Build the production site to `./dist/`                  |
 | `npm run preview`       | Build, then serve locally through `wrangler dev`        |
 | `npm run deploy`        | Build and deploy to Cloudflare                          |
